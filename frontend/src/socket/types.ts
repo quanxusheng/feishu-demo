@@ -1,0 +1,53 @@
+
+// 约束socket的类型
+
+/* 
+期望允许的message的类型
+1.Operation 接受的用户【操作】的message类型
+2.Focus 接受的用户【聚焦】的message类型
+3.JoinRoom 用户【加入当前子表】的message类型
+4.LeaveRoom 用户【离开当前子表】的message类型
+
+*/
+
+
+export enum ValidMessageType {
+    Operation = 'Operation',
+    Focus = 'Focus',
+    JoinRoom = 'JoinRoom',
+    LeaveRoom = 'LeaveRoom',
+    VersionConfirm = 'VersionConfirm'
+}
+
+export type ValidOperationType = 'AddSheet'
+
+export interface VersionConfirmMessage {
+    type: ValidMessageType.VersionConfirm,
+    message: {
+        roomVersion: number
+    }
+}
+
+
+export interface OriginOperationParams<payloadType =  any> {
+    oi: string | number | null // 实际操作的值
+    od: string | number | null // 实际删除的值
+    path: string[] // 路径
+    operation: ValidOperationType
+    payload?: payloadType // 极端情况 额外的参数
+}
+
+export interface OriginOperationPayload {
+    roomId: string
+    roomVersion: number
+}
+
+export interface AddSheetOperationPayload extends OriginOperationPayload {
+    viewId: string
+    columnId: string
+    sheetName: string
+}
+
+export interface AddSheetOperationParams extends OriginOperationParams<AddSheetOperationPayload> {
+    operation: 'AddSheet'
+}

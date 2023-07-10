@@ -1,25 +1,26 @@
 import { createBrowserRouter } from 'react-router-dom'
-import {lazy} from 'react'
+import { lazy } from 'react'
 import RouteGuard from './RouteGuard'
 
 
-const Home = lazy(() => import('./pages/Home'))
+const Sheet = lazy(() => import('./pages/Sheet/index'))
 const Login = lazy(() => import('./pages/Login'))
 const routes = createBrowserRouter([
-  {
-    path: '/',
-    element: <RouteGuard />,
-    children: [
-      {
-        path: '/Home',
-        element: <Home />
-      },
-      {
-        path: '/login',
-        element: <Login />
-      }
-    ]
-  }
+    {
+        path: '/',
+        element: <RouteGuard />,
+        
+        children: [
+            {
+                path: '/base/:sheetId/:viewId',
+                element: <Sheet />
+            },
+            {
+                path: '/login',
+                element: <Login />
+            }
+        ]
+    }
 ])
 
 export default routes

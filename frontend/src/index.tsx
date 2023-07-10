@@ -1,14 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import {RouterProvider} from 'react-router-dom'
+import { RouterProvider } from 'react-router-dom'
+import { Provider as StoreProvide } from 'react-redux'
 import routes from './router.config'
-import { MantineProvider } from '@mantine/core'
 import './i18n/index'
+import './store'
+import store from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={routes} />
-  </React.StrictMode>
+    <React.StrictMode>
+        <StoreProvide store={store}>
+            <RouterProvider router={routes} />
+        </StoreProvide>
+
+    </React.StrictMode>
 );
