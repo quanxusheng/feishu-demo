@@ -3,7 +3,7 @@
 import {v4 as uuid} from 'uuid'
 
 
-import {ColumnConfig, View, Column, Sheet} from './types'
+import {ColumnConfig, View, Column, Sheet, Row} from './types'
 
 export const viewTemplateCreator: (name: string, columnsIdArr: string[], viewId?: string) => View = (name, columnsIdArr, viewId) => {
 
@@ -25,6 +25,13 @@ export const viewTemplateCreator: (name: string, columnsIdArr: string[], viewId?
     }
 }
 
+export const rowInitTemplateCreator: (columnId:string, rowId?: string) => Row = (columnId, rowId) => {
+    return {
+        id: rowId,
+        [columnId]: ''
+    }
+}
+
 export const columnInitTemplateCreator: (name: string, columnId?: string) => Column<'TEXT'> = (name, columnId) => {
     return {
         id: columnId || uuid(),
@@ -38,7 +45,9 @@ export const sheetTemplateCreator: (name: string, message?: object) => Sheet = (
 
     const sheetId = uuid()
     const defaultTextColumn = columnInitTemplateCreator('多行文本', uuid())
+    const defaultRow = rowInitTemplateCreator(defaultTextColumn.id, uuid())
     const defaultView = viewTemplateCreator('表格视图', [defaultTextColumn.id])
+
 
     return {
         id: sheetId,
@@ -49,7 +58,9 @@ export const sheetTemplateCreator: (name: string, message?: object) => Sheet = (
         views: {
             [defaultView.id]: defaultView
         },
-        rows: {}
+        rows: {
+            [defaultRow.id]: defaultRow
+        }
     }
 
 }

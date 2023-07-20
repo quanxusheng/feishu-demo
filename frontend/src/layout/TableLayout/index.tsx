@@ -14,27 +14,6 @@ import Navbar from './components/Navbar'
 
 export default function TableLayout(props: PropsWithChildren) {
 
-    const { submitNewVersion } = useSocket()
-    const { user, modify } = useUserWorker()
-    // console.log('=>useruser', user)
-
-    // const storeData = store.getState()
-    // console.log('=>name', storeData)
-
-    const handleClick = useCallback(() => {
-        const key = Math.random().toFixed(9)
-        modify(
-            {
-                username: 'sss' + key,
-                userId: key
-            }
-        )
-
-        submitNewVersion()
-    }, [modify, submitNewVersion])
-
-
-
     return (
         <AppShell
             header={<Header />}
@@ -42,8 +21,6 @@ export default function TableLayout(props: PropsWithChildren) {
         >
             <Box pl={280}>
                 {props.children}
-                <Button onClick={handleClick} className='bg-blue-500'>submit - {user.username}</Button>
-                <Button onClick={handleClick} className='bg-blue-500'>submit - {user.userId}</Button>
             </Box>
         </AppShell>
     )

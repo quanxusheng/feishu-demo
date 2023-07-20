@@ -10,7 +10,7 @@ export default function Navbar() {
     const [showCreateSheetInput, setShowCreateSheetInput] = useState<boolean>(false)
     const inputRef = useRef<HTMLInputElement>()
 
-    const { sheetsArr, createSheetDispatcher } = useSheets()
+    const { sheetsArr, createSheetDispatcher, navigatorToTargetView } = useSheets()
     // console.log('=>sheets', sheetsArr)
     // createSheetDispatcher()
     const handleCreateSheet = useCallback(() => {
@@ -28,6 +28,7 @@ export default function Navbar() {
         setShowCreateSheetInput(false)
         createSheetDispatcher(inputRef.current.value)
     }, [createSheetDispatcher])
+
     return (
         <NavbarContainer w={280}>
             <Box className="w-full h-full relative p-2">
@@ -37,6 +38,7 @@ export default function Navbar() {
                         map(sheetsArr, item => {
                             return (
                                 <Box
+                                    onClick={() => navigatorToTargetView(item.id)}
                                     key={item.id}
                                     className='flex cursor-pointer h-9 justify-between px-1 items-center rounded hover:bg-slate-200'
                                 >
