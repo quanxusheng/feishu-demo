@@ -9,7 +9,7 @@ const initialState: {
 } = {
     "1cf850b5-e652-4426-a3e6-9162fc249af6": {
         "id": "1cf850b5-e652-4426-a3e6-9162fc249af6",
-        "name": "未命名子表",
+        "name": "营销配置",
         "columns": {
             "f7dfa59c-85eb-4d4f-8841-53603e1879cf": {
                 "id": "f7dfa59c-85eb-4d4f-8841-53603e1879cf",
@@ -23,10 +23,10 @@ const initialState: {
                 "id": "25f212ae-bd4d-4e05-ae97-c01e53e9d66f",
                 "name": "表格视图",
                 columnsConfig: {
-                "f7dfa59c-85eb-4d4f-8841-53603e1879cf": {
-                    width: 200,
-                    sort: 0
-                }
+                    "f7dfa59c-85eb-4d4f-8841-53603e1879cf": {
+                        width: 200,
+                        sort: 0
+                    }
                 }
             }
         },
@@ -45,12 +45,16 @@ const sheetsSlice = createSlice({
         createSheet: (state, action) => {
             const sheet = sheetTemplateCreator(action.payload.name || '数据表')
             state[sheet.id] = sheet
-            console.log('=>ccccc', sheet)
+            // console.log('=>ccccc', sheet)
 
         },
-        change: (state,action) => {
+        updataSheet: (state, action) => {
+            // console.log('=>updataSheet', action)
+            const {sheetId, viewId, rowId, colId, value} = action.payload
+            state[sheetId].rows[rowId][colId] = value
+            
         }
     }
 })
-export const {change, createSheet} = sheetsSlice.actions
+export const {updataSheet, createSheet} = sheetsSlice.actions
 export default sheetsSlice.reducer

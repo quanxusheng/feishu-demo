@@ -9,6 +9,7 @@ export enum ValidMessageType {
 }
 
 export type ValidOperationType = 'addSheet'
+
 export interface OriginOperationParams<PayloadType = any> {
     oi: string | number | null // operation insert 实际插入的值
     od: string | number | null // operation delete 实际删除的值
@@ -38,8 +39,8 @@ export interface OriginRoomParams {
 }
 
 export interface JoinRoomParams extends OriginRoomParams {
-    username: string
-    avatar: string
+    username: ''
+    avatar: ''
 }
 
 export interface OperationMessage<Payload = any> {
@@ -72,4 +73,4 @@ export interface VersionConfirmMessage {
 }
 
 
-export type ValidMessage = JoinRoomMessage | LeaveRoomMessage | FocusMessage | OperationMessage | VersionConfirmMessage | JoinRoomParams
+export type ValidMessage = JoinRoomMessage | LeaveRoomMessage | FocusMessage | OperationMessage | VersionConfirmMessage

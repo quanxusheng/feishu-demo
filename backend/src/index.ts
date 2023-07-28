@@ -3,6 +3,7 @@ import { createServer } from 'http'
 import { Server } from 'socket.io'
 import bodyParser from 'koa-bodyparser'
 import routesInstaller from './routes'
+import socketConnectionResolver from './socket'
 
 const app = new Koa()
 const server = createServer(app.callback())
@@ -13,13 +14,7 @@ const io = new Server(server, {
   }
 })
 
-io.on('connection', socket => {
-//   console.log('=>socket-连上了', socket)
-  socket.on('message', message => {
-    console.log('=> 客户端发版本过来了', message)
-    socket.emit('message', message)
-  })
-})
+io.on('connection', socketConnectionResolver)
 
 server.listen(8999, () => {
   console.log('=>', 'socket 8999')

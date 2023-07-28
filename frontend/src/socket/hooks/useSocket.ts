@@ -1,46 +1,61 @@
-import socket from "./socketInit";
 import { useCallback, useEffect } from 'react'
 
 
-export default function useSocket() {
+import socket from "./socketInit";
+import { ValidMessage, ValidMessageType } from '../types';
 
-    const socketConnetCallback = useCallback(() => {
-        console.log('=>socket连接成功')
-    }, [])
+import { JoinRoomEmiter } from '../messageEmiter';
 
-    const socketDisConnectCallback = useCallback((reason) => {
-        console.log('=>disconnect-reason', reason)
-    }, [])
+import useUserWorker from '@/hooks/useUserWorker';
 
-    const socketMessageCommingCallBack = useCallback((message) => {
-        console.log('=>message', message)
-    }, [])
+import useSheets from '@/hooks/useSheets';
+
+import useWorkInProgressWorker from '@/hooks/useWorkInProgressRoomWorker'
+
+
+export default function useSocket(shouldInit: boolean = false) {
+
+    const { user } = useUserWorker()
+    const { roomInfo, userJoinRoomDispatcher } = useWorkInProgressWorker()
+    console.log('=>roomInfo', roomInfo)
+    const { sheetUrlParams: { roomId } } = useSheets()
+
+
+    const startConnect = () => {
+        try {
+            socket.connect()
+
+            // 1.出发joinRoom事件
+            // 2.监听服务端的推送
+            // 3.开启滞留operation队列
+            JoinRoomEmiter({...user, roomId})
+            watchSocketEvents()
+
+        } catch (error) {
+            console.log('=>startConnect', error)
+        }
+    }
+
+    const joinRoomMessageResolver = useCallback((message) => {
+        userJoinRoomDispatcher(message)
+    }, [userJoinRoomDispatcher])
+
+    const watchSocketEvents = () => {
+        socket.on('message', (incommingMessage: ValidMessage) => {
+            console.log('=>incommingMessage', incommingMessage)
+            if (incommingMessage.type === ValidMessageType.JoinRoom) {
+                joinRoomMessageResolver(incommingMessage.message)
+            }
+        })
+    }
 
     useEffect(() => {
-        socket.on('connect', socketConnetCallback)
+        if (!shouldInit) return
+        startConnect()
+    })
 
-        socket.on('disconnect', socketDisConnectCallback)
-
-        socket.on('message', socketMessageCommingCallBack)
-
-        return () => {
-            socket.off('connect', socketConnetCallback)
-            socket.off('disconnect', socketDisConnectCallback)
-            socket.off('message', socketMessageCommingCallBack)
-        }
-    }, [])
-
-    const submitNewVersion = useCallback(() => {
-        console.log('=>submitNewVersion', socket)
-        socket.emit('message', {
-            version: 2,
-            delete: 'hello',
-            insert: 'hello world'
-        })
-    }, [])
 
     return {
-        submitNewVersion
     }
 
 }

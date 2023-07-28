@@ -1,15 +1,25 @@
-import { Box, Text } from '@mantine/core'
+import { Box, Text, Textarea } from '@mantine/core'
+import { Fragment, useCallback, useState, useRef, Key } from 'react'
+import { KonvaEventObject } from 'konva/lib/Node'
 import { map } from 'lodash-es'
 import { Stage, Layer, Rect, Text as CanvasText } from 'react-konva'
 import { Html } from 'react-konva-utils'
 
 import { ColumnMap } from '@/store/types'
 
-
 import getSheet from '@/hooks/useSheets'
-import { useCallback } from 'react'
-import { KonvaEventObject } from 'konva/lib/Node'
 
+import TextAtomComponent from '@/layout/TableLayout/components/AtomComponent/TextAtomComponent'
+
+export interface WorkInProgressCellType {
+    x: Key,
+    y: Key,
+    colId: Key,
+    columnType: keyof ColumnMap,
+    width: Key,
+    rowId: Key,
+    value: Key
+}
 
 export default function TableView() {
     const { getTargetSheetViewsArr, sheetUrlParams, getTargetViewRows, getTargetViewColumns } = getSheet()
@@ -18,14 +28,19 @@ export default function TableView() {
     const viewsArr = getTargetSheetViewsArr(sheetUrlParams.sheetId)
     const { rowsArr } = getTargetViewRows
     const { columnsArr, columnsConfig } = getTargetViewColumns
-    console.log('=>getTargetViewRows', getTargetViewRows)
-    console.log('=>getTargetViewColumns', getTargetViewColumns)
+    // console.log('=>getTargetViewRows', getTargetViewRows)
+    // console.log('=>getTargetViewColumns', getTargetViewColumns)
 
-    const handleEditCell = useCallback((event: KonvaEventObject<MouseEvent>, cellPayload: {
-        columnType: keyof ColumnMap,
-        colId: string
-    }) => {
 
+    const [workInProgressCell, setWorkInProgressCell] = useState<WorkInProgressCellType | null>(null)
+    const fasterOverlayRef = useRef<HTMLDivElement>()
+
+
+    const handleEditCell = useCallback((event: KonvaEventObject<MouseEvent>, cellPayload: WorkInProgressCellType) => {
+        // console.log('=>', event)
+        fasterOverlayRef.current.style.left = cellPayload.x + 'px'
+        fasterOverlayRef.current.style.top = cellPayload.y + 'px'
+        setWorkInProgressCell(cellPayload)
     }, [])
     return (
         <Box>
@@ -38,21 +53,7 @@ export default function TableView() {
                 }
             </Box>
 
-            <Box>
-                {/* <Stage width={window.innerWidth} height={window.innerHeight}>
-                    <Layer>
-                        <Rect
-                            x={20}
-                            y={20}
-                            width={50}
-                            height={50}
-                            fill='red'
-                            shadowBlur={10}
-                        >
-
-                        </Rect>
-                    </Layer>
-                </Stage> */}
+            <Box className='relative'>
                 <Stage width={window.innerWidth} height={window.innerHeight}>
                     <Layer>
                         {/* <Html>
@@ -66,7 +67,17 @@ export default function TableView() {
                                     const x = 0
                                     const y = 0
                                     return (
-                                        <>
+                                        <Fragment key={colId}>
+                                            <CanvasText
+                                                width={width}
+                                                fontSize={15}
+                                                text={currntCol}
+                                                padding={10}
+                                                wrap="none"
+                                                ellipsis
+                                            // x={x + 10}
+                                            // y={10}
+                                            />
                                             <Rect
                                                 width={width}
                                                 height={30}
@@ -75,27 +86,34 @@ export default function TableView() {
                                                 stroke='#ddd'
                                                 strokeWidth={1}
                                                 onDblClick={(event) => handleEditCell(event, {
+                                                    x,
+                                                    y,
                                                     colId,
-                                                    columnType
+                                                    columnType,
+                                                    width,
+                                                    rowId: row.id,
+                                                    value: currntCol
                                                 })}
                                             />
-                                            <CanvasText
-                                                fontSize={15}
-                                                text={currntCol}
-                                                x={x + 10}
-                                                y={10}
-                                            />
-                                        </>
+                                        </Fragment>
                                     )
-
-
                                 })
-
                             })
                         }
                     </Layer>
                 </Stage>
 
+                <Box ref={fasterOverlayRef} className='absolute faster-overlay'>
+                    {
+                        workInProgressCell && (
+                            workInProgressCell.columnType === 'TEXT' &&
+                            <TextAtomComponent
+                                {...workInProgressCell}
+                                destroyAtomComponent={() => setWorkInProgressCell(null)}
+                            />
+                        )
+                    }
+                </Box>
 
             </Box>
         </Box>

@@ -3,10 +3,10 @@ import {useCallback, useMemo, Key} from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { RootState } from '../store'
-import { createSheet } from '../store/slicers/sheetsSlice'
+import { createSheet, updataSheet } from '../store/slicers/sheetsSlice'
 import { Sheet } from '../store/types'
 
-import {get} from 'lodash-es'
+import {get, omit} from 'lodash-es'
 
 export default function useSheets() {
     const sheets = useSelector((state: RootState) => state.sheets)
@@ -14,8 +14,16 @@ export default function useSheets() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const params = useParams()
-    console.log('=>params', params)
+    // console.log('=>params', params)
     const currentTargetSheet = useMemo(() => get(sheets, params.sheetId), [params.sheetId, sheets])
+
+    const sheetUrlParams = useMemo<{roomId: string, sheetId: string, viewId: string}>(() => {
+        return {
+            roomId: params.roomId,
+            sheetId: params.sheetId,
+            viewId: params.viewId,
+        }
+    }, [params.roomId, params.sheetId, params.viewId])
 
     const createSheetDispatcher = (sheetName?: string) => {
         dispatch(createSheet({
@@ -23,12 +31,10 @@ export default function useSheets() {
         }))
     }
 
-    const sheetUrlParams = useMemo<{sheetId: string, viewId: string}>(() => {
-        return {
-            sheetId: params.sheetId,
-            viewId: params.viewId,
-        }
-    }, [params.sheetId, params.viewId])
+    const updataSheetDispather = useCallback((payload) => {
+        console.log('=>payload', payload)
+        dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
+    }, [dispatch, sheetUrlParams])
 
     const getTargetSheetViewsArr = useCallback((sheetId) => {
         return Object.values(sheets[sheetId].views)
@@ -70,8 +76,8 @@ export default function useSheets() {
         getTargetViewRows,
         getTargetViewColumns,
         createSheetDispatcher,
+        updataSheetDispather,
         navigatorToTargetView,
         getTargetSheetViewsArr,
-        
     }
 }

@@ -9,10 +9,10 @@ const routes = createBrowserRouter([
     {
         path: '/',
         element: <RouteGuard />,
-        
+
         children: [
             {
-                path: '/base/:sheetId/:viewId',
+                path: '/base/:roomId/:sheetId/:viewId',
                 element: <Sheet />
             },
             {
