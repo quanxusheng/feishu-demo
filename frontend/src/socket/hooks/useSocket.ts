@@ -2,9 +2,9 @@ import { useCallback, useEffect } from 'react'
 
 
 import socket from "./socketInit";
-import { ValidMessage, ValidMessageType } from '../types';
+import { JoinRoomParams, ValidMessage, ValidMessageType } from '../types';
 
-import { JoinRoomEmiter } from '../messageEmiter';
+import { JoinRoomEmiter, OperationEmiter } from '../messageEmiter';
 
 import useUserWorker from '@/hooks/useUserWorker';
 
@@ -20,7 +20,6 @@ export default function useSocket(shouldInit: boolean = false) {
     console.log('=>roomInfo', roomInfo)
     const { sheetUrlParams: { roomId } } = useSheets()
 
-
     const startConnect = () => {
         try {
             socket.connect()
@@ -35,16 +34,19 @@ export default function useSocket(shouldInit: boolean = false) {
             console.log('=>startConnect', error)
         }
     }
+    
 
-    const joinRoomMessageResolver = useCallback((message) => {
+    const joinRoomMessageResolver = (message: JoinRoomParams) => {
         userJoinRoomDispatcher(message)
-    }, [userJoinRoomDispatcher])
+    }
 
     const watchSocketEvents = () => {
         socket.on('message', (incommingMessage: ValidMessage) => {
             console.log('=>incommingMessage', incommingMessage)
             if (incommingMessage.type === ValidMessageType.JoinRoom) {
                 joinRoomMessageResolver(incommingMessage.message)
+            } else if (incommingMessage.type === ValidMessageType.Operation) {
+                // OperationEmiter(incommingMessage)
             }
         })
     }
@@ -53,6 +55,7 @@ export default function useSocket(shouldInit: boolean = false) {
         if (!shouldInit) return
         startConnect()
     })
+    
 
 
     return {

@@ -72,4 +72,4 @@ export interface VersionConfirmMessage {
 }
 
 
-export type ValidMessage = JoinRoomMessage | LeaveRoomMessage | FocusMessage | OperationMessage | VersionConfirmMessage | JoinRoomParams
+export type ValidMessage = JoinRoomMessage | LeaveRoomMessage | FocusMessage | OperationMessage | VersionConfirmMessage

@@ -17,7 +17,7 @@ const io = new Server(server, {
 io.on('connection', socketConnectionResolver)
 
 server.listen(8999, () => {
-  console.log('=>', 'socket 8999')
+//   console.log('=>', 'socket 8999')
 })
 
 let port = 8080
@@ -26,5 +26,5 @@ app.use(bodyParser())
 routesInstaller(app)
 
 app.listen(port, () => {
-  console.log('=>listen', 'success')
+//   console.log('=>listen', 'success')
 })

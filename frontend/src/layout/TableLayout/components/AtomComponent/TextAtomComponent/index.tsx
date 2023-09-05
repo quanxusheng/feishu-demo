@@ -1,4 +1,4 @@
-import { Textarea } from "@mantine/core";
+import { Textarea, Input } from "@mantine/core";
 import { WorkInProgressCellType } from "@/pages/Sheet/components/TableView";
 import { useCallback, useEffect, useRef } from "react";
 import useSheets from '@/hooks/useSheets'
@@ -12,7 +12,8 @@ export default function TextAtomComponent(props: AtomComponentType) {
     const { width } = props
 
     const { updataSheetDispather } = useSheets()
-    const TextAtomComponentRef = useRef<HTMLTextAreaElement>()
+    const TextAtomComponentRef = useRef<HTMLInputElement>()
+    // const TextAtomComponentRef = useRef<HTMLTextAreaElement>()
 
     useEffect(() => {
         const textarea = TextAtomComponentRef.current
@@ -32,25 +33,45 @@ export default function TextAtomComponent(props: AtomComponentType) {
 
 
     return (
-        <Textarea
+        <Input
             ref={TextAtomComponentRef}
+            size="xs"
             // autoFocus
             onBlur={handleBlur}
             defaultValue={props.value}
-            autosize
-            minRows={1}
             className="rounded-none"
             style={{
                 width,
                 border: '2px solid #336df4',
                 fontSize: '14px',
-                minHeight: '35px',
+                // minHeight: '30px',
             }}
             styles={{
                 input: {
                     borderRadius: '0px',
+                    fontSize: '14px'
                 }
             }}
         />
+        // <Textarea
+        //     ref={TextAtomComponentRef}
+        //     // autoFocus
+        //     // onBlur={handleBlur}
+        //     defaultValue={props.value}
+        //     autosize
+        //     minRows={1}
+        //     className="rounded-none"
+        //     style={{
+        //         width,
+        //         border: '2px solid #336df4',
+        //         fontSize: '14px',
+        //         minHeight: '30px',
+        //     }}
+        //     styles={{
+        //         input: {
+        //             borderRadius: '0px',
+        //         }
+        //     }}
+        // />
     )
 }
