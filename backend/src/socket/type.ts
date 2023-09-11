@@ -8,8 +8,7 @@ export enum ValidMessageType {
     VersionConfirm = 'VersionConfirm'
 }
 
-export type ValidOperationType = 'addSheet'
-
+export type ValidOperationType = 'addSheet' | 'updataSheet'
 export interface OriginOperationParams<PayloadType = any> {
     oi: string | number | null // operation insert 实际插入的值
     od: string | number | null // operation delete 实际删除的值
@@ -39,27 +38,27 @@ export interface OriginRoomParams {
 }
 
 export interface JoinRoomParams extends OriginRoomParams {
-    username: ''
-    avatar: ''
+    username: string
+    avatar: string
 }
 
 export interface OperationMessage<Payload = any> {
     type: ValidMessageType.Operation,
-    message: OriginOperationParams<Payload>
+    params: OriginOperationParams<Payload>
 }
 export interface JoinRoomMessage {
     type: ValidMessageType.JoinRoom
-    message: JoinRoomParams
+    params: JoinRoomParams
 }
 
 export interface LeaveRoomMessage {
     type: ValidMessageType.LeaveRoom
-    message: OriginRoomParams
+    params: OriginRoomParams
 }
 
 export interface FocusMessage {
     type: ValidMessageType.Focus,
-    message: {
+    params: {
         userId: string
         path: string[] // sheetId viewId rowId columnId
     }
@@ -67,7 +66,7 @@ export interface FocusMessage {
 
 export interface VersionConfirmMessage {
     type:ValidMessageType.VersionConfirm
-    message: {
+    params: {
         roomVersion: number
     }
 }

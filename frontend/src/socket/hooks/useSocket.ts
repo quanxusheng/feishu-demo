@@ -44,15 +44,16 @@ export default function useSocket() {
         socket.on('message', (incommingMessage: ValidMessage) => {
             console.log('=>incommingMessage', incommingMessage)
             if (incommingMessage.type === ValidMessageType.JoinRoom) {
-                joinRoomMessageResolver(incommingMessage.message)
+                joinRoomMessageResolver(incommingMessage.params)
             } else if (incommingMessage.type === ValidMessageType.Operation) {
-                // OperationEmiter(incommingMessage)
+                // OperationEmiter(incommingMessage.params)
+                // dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
             }
         })
     }
 
     useEffect(() => {
-        console.log('=>111', socket)
+        // console.log('=>111', socket)
         if (socket.connected) return
         startConnect()
     })

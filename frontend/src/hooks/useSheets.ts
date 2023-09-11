@@ -38,12 +38,12 @@ export default function useSheets() {
         const { value, rowId, colId, oldVal } = payload
         console.log('=>payload', payload)
         dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
-        OperationEmiter({
-            oi: value,
-            od: oldVal,
-            path: [rowId, colId],
-            operation: 'updataSheet'
-        })
+        // OperationEmiter({
+        //     oi: value,
+        //     od: oldVal,
+        //     path: [rowId, colId],
+        //     operation: 'updataSheet'
+        // })
     }, [dispatch, sheetUrlParams])
 
     const getTargetSheetViewsArr = useCallback((sheetId) => {

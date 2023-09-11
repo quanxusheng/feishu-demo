@@ -8,8 +8,8 @@ import OperationMessageResolver from './OperationMessageResolver';
 export default function messageResolver(socket: Socket, incommingMessage: ValidMessage) {
     console.log('=message>999', incommingMessage)
     if (incommingMessage.type === ValidMessageType.JoinRoom) {
-        JoinRoomMessageResolver(socket, incommingMessage.message)
+        JoinRoomMessageResolver(socket, incommingMessage.params)
     } else if (incommingMessage.type === ValidMessageType.Operation) {
-        OperationMessageResolver(socket, incommingMessage.message)
+        OperationMessageResolver(socket, incommingMessage.params)
     }
 }

@@ -4,6 +4,7 @@ import { JoinRoomParams, ValidMessageType } from "../type";
 
 
 export default function JoinRoomMessageResolver(socket: Socket, params: JoinRoomParams){
+    console.log('=>8888', params)
     const {roomId, userId, username} = params
     
     socket.join(roomId)

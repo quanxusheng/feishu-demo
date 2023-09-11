@@ -2,6 +2,7 @@ import { Textarea, Input } from "@mantine/core";
 import { WorkInProgressCellType } from "@/pages/Sheet/components/TableView";
 import { useCallback, useEffect, useRef } from "react";
 import useSheets from '@/hooks/useSheets'
+import { OperationEmiter } from '@/socket/messageEmiter/index'
 
 interface AtomComponentType extends WorkInProgressCellType {
     destroyAtomComponent: VoidFunction
@@ -24,13 +25,20 @@ export default function TextAtomComponent(props: AtomComponentType) {
 
     const handleBlur = useCallback((event) => {
         console.log('=>失去焦点了',)
-        updataSheetDispather({
-            ...props,
-            oldVal: props.value,
-            value: event.target.value
+        const { rowId, colId } = props
+        OperationEmiter({
+            oi: event.target.value,
+            od: props.value,
+            path: [rowId, colId],
+            operation: 'updataSheet'
         })
+        // updataSheetDispather({
+        //     ...props,
+        //     oldVal: props.value,
+        //     value: event.target.value
+        // })
         props.destroyAtomComponent()
-    }, [props, updataSheetDispather])
+    }, [props])
 
 
     return (
