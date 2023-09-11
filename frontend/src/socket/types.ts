@@ -8,7 +8,7 @@ export enum ValidMessageType {
     VersionConfirm = 'VersionConfirm'
 }
 
-export type ValidOperationType = 'addSheet'
+export type ValidOperationType = 'addSheet' | 'updataSheet'
 export interface OriginOperationParams<PayloadType = any> {
     oi: string | number | null // operation insert 实际插入的值
     od: string | number | null // operation delete 实际删除的值

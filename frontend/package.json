@@ -36,6 +36,7 @@
     "i18n": "^0.15.1",
     "i18next": "^22.4.14",
     "identity-obj-proxy": "^3.0.0",
+    "immer": "9.0.21",
     "jest": "^27.4.3",
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^1.0.0",
@@ -66,7 +67,6 @@
     "socket.io-client": "^4.7.1",
     "source-map-loader": "^3.0.0",
     "style-loader": "^3.3.1",
-    "tailwindcss": "^3.0.2",
     "terser-webpack-plugin": "^5.2.5",
     "uuid": "^9.0.0",
     "web-vitals": "^2.1.0",
@@ -103,7 +103,7 @@
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
-    "tailwindcss": "^3.3.2",
+    "tailwindcss": "^3.3.3",
     "typescript": "^5.0.4"
   },
   "jest": {

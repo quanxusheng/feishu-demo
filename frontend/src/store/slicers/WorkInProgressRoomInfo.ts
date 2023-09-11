@@ -1,14 +1,15 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import { Key } from 'react'
 
-interface onlineUsersType {
+
+interface OnlineUsersType {
     userId: Key
     avatar: Key
     username: Key
 }
 export interface WorkInProgressRoomInfoType {
     roomId: string
-    onlineUsers: onlineUsersType[]
+    onlineUsers: OnlineUsersType[]
     roomVersion: Key
 }
 
@@ -30,19 +31,22 @@ const roomSlicer = createSlice({
             state.roomId = ''
             state.onlineUsers = []
         },
-        userJoinRoom: (state, action: PayloadAction<onlineUsersType>) => {
+        userJoinRoom: (state, action: PayloadAction<OnlineUsersType>) => {
             console.log('=>userJoinRoom', action)
-            state.onlineUsers = [
-                    ...state.onlineUsers,
-                    action.payload
-                ]
+            // state.onlineUsers = [...action.payload]
+            // state.onlineUsers = [
+            //         ...state.onlineUsers,
+            //         action.payload
+            //     ]
             // if (!state.onlineUsers.find(item => item.userId !== action.payload.userId)) {
             //     state.onlineUsers = [
             //         ...state.onlineUsers,
             //         action.payload
             //     ]
             // }
-            // state.onlineUsers.add(action.payload)
+            const temp = new Set(state.onlineUsers)
+            temp.add(action.payload)
+            state.onlineUsers = [...temp]
         },
         updateRoomVersion: (state, action) => {
             state.roomVersion = action.payload

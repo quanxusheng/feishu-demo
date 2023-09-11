@@ -2,11 +2,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import {useCallback, useMemo, Key} from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import {get, omit} from 'lodash-es'
+
 import { RootState } from '../store'
 import { createSheet, updataSheet } from '../store/slicers/sheetsSlice'
 import { Sheet } from '../store/types'
+import { OperationEmiter } from '@/socket/messageEmiter'
 
-import {get, omit} from 'lodash-es'
+
 
 export default function useSheets() {
     const sheets = useSelector((state: RootState) => state.sheets)
@@ -32,8 +35,15 @@ export default function useSheets() {
     }
 
     const updataSheetDispather = useCallback((payload) => {
+        const { value, rowId, colId, oldVal } = payload
         console.log('=>payload', payload)
         dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
+        OperationEmiter({
+            oi: value,
+            od: oldVal,
+            path: [rowId, colId],
+            operation: 'updataSheet'
+        })
     }, [dispatch, sheetUrlParams])
 
     const getTargetSheetViewsArr = useCallback((sheetId) => {

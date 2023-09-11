@@ -6,7 +6,7 @@ import OperationMessageResolver from './OperationMessageResolver';
 
 
 export default function messageResolver(socket: Socket, incommingMessage: ValidMessage) {
-    // console.log('=message>', incommingMessage)
+    console.log('=message>999', incommingMessage)
     if (incommingMessage.type === ValidMessageType.JoinRoom) {
         JoinRoomMessageResolver(socket, incommingMessage.message)
     } else if (incommingMessage.type === ValidMessageType.Operation) {

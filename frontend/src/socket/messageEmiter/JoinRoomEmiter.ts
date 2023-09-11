@@ -4,9 +4,9 @@ import { JoinRoomParams } from "../types";
 
 import socket from "../hooks/socketInit";
 
-export default function JoinRoomEmiter(params: JoinRoomParams) {
+export default function JoinRoomEmiter(message: JoinRoomParams) {
     socket.emit('message', {
         type: ValidMessageType.JoinRoom,
-        params
+        message
     })
 }

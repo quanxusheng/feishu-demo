@@ -13,7 +13,7 @@ import useSheets from '@/hooks/useSheets';
 import useWorkInProgressWorker from '@/hooks/useWorkInProgressRoomWorker'
 
 
-export default function useSocket(shouldInit: boolean = false) {
+export default function useSocket() {
 
     const { user } = useUserWorker()
     const { roomInfo, userJoinRoomDispatcher } = useWorkInProgressWorker()
@@ -52,7 +52,8 @@ export default function useSocket(shouldInit: boolean = false) {
     }
 
     useEffect(() => {
-        if (!shouldInit) return
+        console.log('=>111', socket)
+        if (socket.connected) return
         startConnect()
     })
     

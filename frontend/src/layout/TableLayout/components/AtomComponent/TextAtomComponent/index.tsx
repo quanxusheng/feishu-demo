@@ -26,6 +26,7 @@ export default function TextAtomComponent(props: AtomComponentType) {
         console.log('=>失去焦点了',)
         updataSheetDispather({
             ...props,
+            oldVal: props.value,
             value: event.target.value
         })
         props.destroyAtomComponent()

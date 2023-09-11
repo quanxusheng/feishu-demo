@@ -7,11 +7,12 @@ import { useCallback } from 'react'
 import useWorkInProgressWorker from '@/hooks/useWorkInProgressRoomWorker'
 import { map } from 'lodash-es'
 
+
 export default function Header() {
 
     const { roomInfo } = useWorkInProgressWorker()
-    console.log('=>1111', roomInfo)
-    console.log('=>2222', roomInfo.onlineUsers)
+    // console.log('=>roomInfo', roomInfo)
+    console.log('=>roomInfo.onlineUsers', roomInfo.onlineUsers)
 
     return (
         <HeaderContainer
@@ -21,13 +22,14 @@ export default function Header() {
                 <Text style={{ fontSize: '50px' }} fz='xl' fw='bold' c='blue' >远智教育</Text>
 
                 <Card withBorder shadow='lg' padding='lg' className='w-6/12'>
-                    {/* <Card.Section>
+                    <Card.Section>
                         {
-                            map(roomInfo.onlineUsers, item => {
-                                return <Box>{item.valueOf()}</Box>
+                            map(Array.from(roomInfo.onlineUsers), item => {
+                                return <Box key={item.userId}>{item.username}</Box>
                             })
+                            //  return <Box key={item.userId}>{item.username}</Box>
                         }
-                    </Card.Section> */}
+                    </Card.Section>
                 </Card>
 
 
