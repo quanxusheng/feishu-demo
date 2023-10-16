@@ -10,7 +10,7 @@ export default function Navbar() {
     const [showCreateSheetInput, setShowCreateSheetInput] = useState<boolean>(false)
     const inputRef = useRef<HTMLInputElement>()
 
-    const { sheetsArr, createSheetDispatcher, navigatorToTargetView } = useSheets()
+    const { sheets, sheetsArr, createSheetDispatcher, navigatorToTargetView } = useSheets()
     // console.log('=>sheets', sheetsArr)
     // createSheetDispatcher()
     const handleCreateSheet = useCallback(() => {
@@ -27,6 +27,8 @@ export default function Navbar() {
     const requestCreateSheet = useCallback(() => {
         setShowCreateSheetInput(false)
         createSheetDispatcher(inputRef.current.value)
+        console.log('=>sheets', sheets)
+        console.log('=>sheetsArr', sheetsArr)
     }, [createSheetDispatcher])
 
     return (

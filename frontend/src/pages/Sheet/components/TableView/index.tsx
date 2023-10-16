@@ -26,8 +26,10 @@ export default function TableView() {
     // console.log('=>getTargetSheetViewsArr', getTargetSheetViewsArr(sheetUrlParams.sheetId))
 
     const viewsArr = getTargetSheetViewsArr(sheetUrlParams.sheetId)
+    // console.log('=viewsArr>', viewsArr)
     const { rowsArr } = getTargetViewRows
     const { columnsArr, columnsConfig } = getTargetViewColumns
+    // console.log('=>columnsArr', columnsArr)
     // console.log('=>getTargetViewRows', getTargetViewRows)
     // console.log('=>getTargetViewColumns', getTargetViewColumns)
 
@@ -42,6 +44,7 @@ export default function TableView() {
         fasterOverlayRef.current.style.top = cellPayload.y + 'px'
         setWorkInProgressCell(cellPayload)
     }, [])
+    console.log('=>workInProgressCell', workInProgressCell)
     return (
         <Box>
             {/* 头部视图列表 */}

@@ -6,9 +6,14 @@ export interface User {
     username: string
     avatar: string
 }
+const getUserName =() => {
+    const arr = ['林国瑞','林玟书','林雅南','江奕云','刘柏宏','阮建安','夏志豪', '吉茹定', '黄文隆', '林子帆']
+    return arr[(Math.random() * 10).toFixed()]
+}
 
 const initialState: User = {
-    username: Math.random() > 0.5 ? '一元' : '鲸鱼',
+    // username: Math.random() > 0.5 ? '一元' : '鲸鱼',
+    username: getUserName(),
     userId: uuid(),
     avatar: ''
 }

@@ -11,8 +11,11 @@ import { map } from 'lodash-es'
 export default function Header() {
 
     const { roomInfo } = useWorkInProgressWorker()
+    const { user: { username } } = useUserWorker()
+    const len = username.length
+    const name = len > 2 ? username.slice(len - 2, len) : username
     // console.log('=>roomInfo', roomInfo)
-    console.log('=>roomInfo.onlineUsers', roomInfo.onlineUsers)
+    // console.log('=>roomInfo.onlineUsers', roomInfo.onlineUsers)
 
     return (
         <HeaderContainer
@@ -37,7 +40,7 @@ export default function Header() {
 
                 <Menu>
                     <Menu.Target>
-                        <Avatar className='cursor-pointer' radius='xl' color="blue">鲸鱼</Avatar>
+                        <Avatar className='cursor-pointer' radius='xl' color="blue">{name}</Avatar>
                     </Menu.Target>
 
                     <Menu.Dropdown>

@@ -72,5 +72,10 @@ export interface VersionConfirmMessage {
     }
 }
 
+export interface AddSheetParams {
+    id: string,
+    name: string
+}
 
-export type ValidMessage = JoinRoomMessage | LeaveRoomMessage | FocusMessage | OperationMessage | VersionConfirmMessage
+
+export type ValidMessage = JoinRoomMessage | LeaveRoomMessage | FocusMessage | OperationMessage | VersionConfirmMessage | AddSheetParams

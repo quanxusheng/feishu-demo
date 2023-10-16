@@ -4,6 +4,8 @@ import { v4 as uuid} from 'uuid'
 import { Sheet } from '../types'
 import {sheetTemplateCreator} from '../utils'
 
+import { OperationSheet } from '@/socket/messageEmiter'
+
 const initialState: {
     [columnId: string]: Sheet
 } = {
@@ -44,8 +46,13 @@ const sheetsSlice = createSlice({
     reducers: {
         createSheet: (state, action) => {
             const sheet = sheetTemplateCreator(action.payload.name || '数据表')
+            const { id, name} = sheet
             state[sheet.id] = sheet
-            // console.log('=>ccccc', sheet)
+            console.log('=>sheetaaa', sheet)
+                OperationSheet({
+                    id,
+                    name
+                })
 
         },
         updataSheet: (state, action) => {

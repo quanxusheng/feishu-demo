@@ -24,7 +24,7 @@ export default function useSocket() {
         try {
             socket.connect()
 
-            // 1.出发joinRoom事件
+            // 1.触发joinRoom事件
             // 2.监听服务端的推送
             // 3.开启滞留operation队列
             JoinRoomEmiter({...user, roomId})
