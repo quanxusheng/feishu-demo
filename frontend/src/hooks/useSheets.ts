@@ -8,11 +8,14 @@ import { RootState } from '../store'
 import { createSheet, updataSheet } from '../store/slicers/sheetsSlice'
 import { Sheet } from '../store/types'
 import { OperationEmiter } from '@/socket/messageEmiter'
+import { updateRoomVersion } from '@/store/slicers/WorkInProgressRoomInfo'
+
 
 
 
 export default function useSheets() {
     const sheets = useSelector((state: RootState) => state.sheets)
+    const workInProgressRoomInfo = useSelector((state:RootState) => state.workInProgressRoomInfo)
     const sheetsArr = useMemo<Array<Sheet>>(() => Object.values(sheets), [sheets])
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -30,8 +33,11 @@ export default function useSheets() {
 
     const createSheetDispatcher = (sheetName?: string) => {
         dispatch(createSheet({
-            name: sheetName
+            name: sheetName,
+            roomId: sheetUrlParams.roomId,
+            roomVersion: workInProgressRoomInfo.roomVersion + 1
         }))
+        dispatch(updateRoomVersion(workInProgressRoomInfo.roomVersion + 1))
     }
 
     const updataSheetDispather = useCallback((payload) => {

@@ -62,7 +62,7 @@ export default function TableView() {
                         {/* <Html>
                         </Html> */}
                         {
-                            map(rowsArr, row => {
+                            map(rowsArr, (row, rowIndex) => {
                                 return map(columnsArr, ({ id, columnType }) => {
                                     const colId = id
                                     const currntCol = row[colId]
@@ -78,19 +78,19 @@ export default function TableView() {
                                                 padding={10}
                                                 wrap="none"
                                                 ellipsis
-                                            // x={x + 10}
-                                            // y={10}
+                                                // x={x + 10}
+                                                y={rowIndex * 30}
                                             />
                                             <Rect
                                                 width={width}
                                                 height={30}
                                                 x={x}
-                                                y={y}
+                                                y={rowIndex * 30}
                                                 stroke='#ddd'
                                                 strokeWidth={1}
                                                 onDblClick={(event) => handleEditCell(event, {
                                                     x,
-                                                    y,
+                                                    y: rowIndex * 30,
                                                     colId,
                                                     columnType,
                                                     width,

@@ -19,12 +19,17 @@ export default function useWorkInProgressWorker() {
         }))
     }, [dispatch])
 
+    // const initRoomDispatcher = useCallback((roomId: string) => {
+    //     dispatch(initRoom(roomId))
+    // }, [dispatch])
+
     // const operationMessage
 
 
 
     return {
         roomInfo,
+        // initRoomDispatcher,
         userJoinRoomDispatcher
     }
 }

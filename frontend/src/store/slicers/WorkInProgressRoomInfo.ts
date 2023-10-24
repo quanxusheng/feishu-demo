@@ -1,16 +1,15 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import { Key } from 'react'
 
 
 interface OnlineUsersType {
-    userId: Key
-    avatar: Key
-    username: Key
+    userId: string
+    avatar: string
+    username: string
 }
 export interface WorkInProgressRoomInfoType {
     roomId: string
     onlineUsers: OnlineUsersType[]
-    roomVersion: Key
+    roomVersion: number
 }
 
 

@@ -6,26 +6,19 @@ import {sheetTemplateCreator} from '../utils'
 
 import { OperationSheet } from '@/socket/messageEmiter'
 
+
 const initialState: {
     [columnId: string]: Sheet
 } = {
-    "1cf850b5-e652-4426-a3e6-9162fc249af6": {
-        "id": "1cf850b5-e652-4426-a3e6-9162fc249af6",
+    "7d690de4-e9e5-43de-8721-6845e20527d7": {
+        "id": "7d690de4-e9e5-43de-8721-6845e20527d7",
         "name": "营销配置",
-        "columns": {
-            "f7dfa59c-85eb-4d4f-8841-53603e1879cf": {
-                "id": "f7dfa59c-85eb-4d4f-8841-53603e1879cf",
-                "columnType": "TEXT",
-                "columnProps": {},
-                "name": "多行文本",
-            }
-        },
         "views": {
-            "25f212ae-bd4d-4e05-ae97-c01e53e9d66f": {
-                "id": "25f212ae-bd4d-4e05-ae97-c01e53e9d66f",
+            "07827929-4e3f-4f35-b5d9-17cee01a5cdf": {
+                "id": "07827929-4e3f-4f35-b5d9-17cee01a5cdf",
                 "name": "表格视图",
                 columnsConfig: {
-                    "f7dfa59c-85eb-4d4f-8841-53603e1879cf": {
+                    "784a7165-8829-40e6-851e-4f63a494ee76": {
                         width: 200,
                         sort: 0
                     }
@@ -33,11 +26,27 @@ const initialState: {
             }
         },
         "rows": {
-            "25fae-bd4d-4e05-se237-c01e53e9d66f": {
-                "id": "25fae-bd4d-4e05-se237-c01e53e9d66f",
-                "f7dfa59c-85eb-4d4f-8841-53603e1879cf": "helloworld"
-            }
-        }
+            "0e298ffb-1181-45c2-872a-dfa509373eb5": {
+                "id": "0e298ffb-1181-45c2-872a-dfa509373eb5",
+                "784a7165-8829-40e6-851e-4f63a494ee76": "helloworld"
+            },
+            "0e298ffb-1181-45c2-872a-6": {
+                "id": "0e298ffb-1181-45c2-872a-6",
+                "784a7165-8829-40e6-851e-4f63a494ee76": "okok"
+            },
+            "0e298ffb-1181-45c2-872a-7": {
+                "id": "0e298ffb-1181-45c2-872a-7",
+                "784a7165-8829-40e6-851e-4f63a494ee76": "ooop"
+            },
+        },
+        "columns": {
+            "784a7165-8829-40e6-851e-4f63a494ee76": {
+                "id": "784a7165-8829-40e6-851e-4f63a494ee76",
+                "columnType": "TEXT",
+                "columnProps": {},
+                "name": "多行文本",
+            },
+        },
   }
 }
 const sheetsSlice = createSlice({
@@ -46,12 +55,21 @@ const sheetsSlice = createSlice({
     reducers: {
         createSheet: (state, action) => {
             const sheet = sheetTemplateCreator(action.payload.name || '数据表')
-            const { id, name} = sheet
+            console.log('=>createSheet', sheet)
+            const { id, name, views, columns} = sheet
             state[sheet.id] = sheet
-            console.log('=>sheetaaa', sheet)
+
+            const viewId = Object.values(views)[0].id
+            const columnId = Object.values(columns)[0].id
+            // console.log('=>action.payload', action.payload)
                 OperationSheet({
-                    id,
-                    name
+                    ...action.payload,
+                    sheetId: id,
+                    sheetName: name,
+                    viewId,
+                    columnId
+
+                    // roomId: sheetUrlParams.
                 })
 
         },

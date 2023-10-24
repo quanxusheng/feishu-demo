@@ -12,6 +12,8 @@ import useSheets from '@/hooks/useSheets';
 
 import useWorkInProgressWorker from '@/hooks/useWorkInProgressRoomWorker'
 
+import applyAddSheet from './triggerEvent/applyAddSheet'
+
 
 export default function useSocket() {
 
@@ -48,6 +50,8 @@ export default function useSocket() {
             } else if (incommingMessage.type === ValidMessageType.Operation) {
                 // OperationEmiter(incommingMessage.params)
                 // dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
+            } else if (incommingMessage.type === ValidMessageType.OperationSheet) {
+                applyAddSheet(incommingMessage.params)
             }
         })
     }

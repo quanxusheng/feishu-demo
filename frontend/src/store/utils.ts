@@ -42,6 +42,7 @@ export const columnInitTemplateCreator: (name: string, columnId?: string) => Col
 }
 
 export const sheetTemplateCreator: (name: string, message?: object) => Sheet = (name, message) => {
+    console.log('=>messagemessage',message )
 
     const sheetId = uuid()
     const defaultTextColumn = columnInitTemplateCreator('多行文本', uuid())

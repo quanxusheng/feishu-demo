@@ -5,7 +5,8 @@ export enum ValidMessageType {
     Operation = 'Operation',
     Focus = 'Focus',
     LeaveRoom = 'LeaveRoom',
-    VersionConfirm = 'VersionConfirm'
+    VersionConfirm = 'VersionConfirm',
+    OperationSheet = 'OperationSheet'
 }
 
 export type ValidOperationType = 'addSheet' | 'updataSheet'
@@ -71,5 +72,15 @@ export interface VersionConfirmMessage {
     }
 }
 
+export interface AddSheetParams extends OriginOperationPayload {
+    sheetId: string,
+    sheetName: string
+}
 
-export type ValidMessage = JoinRoomMessage | LeaveRoomMessage | FocusMessage | OperationMessage | VersionConfirmMessage
+export interface OperationSheetMessage {
+    type: ValidMessageType.OperationSheet,
+    params: AddSheetParams
+}
+
+
+export type ValidMessage = JoinRoomMessage | LeaveRoomMessage | FocusMessage | OperationMessage | VersionConfirmMessage | OperationSheetMessage
