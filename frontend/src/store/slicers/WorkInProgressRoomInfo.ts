@@ -43,9 +43,26 @@ const roomSlicer = createSlice({
             //         action.payload
             //     ]
             // }
-            const temp = new Set(state.onlineUsers)
-            temp.add(action.payload)
-            state.onlineUsers = [...temp]
+            // const temp = new Set(state.onlineUsers)
+            // temp.add(action.payload)
+            // state.onlineUsers = [action.online_user_list]
+        },
+        updataOnlineUserList: (state, action) => {
+            console.log('=>userJoinRoom', action)
+            // state.onlineUsers = [...action.payload]
+            // state.onlineUsers = [
+            //         ...state.onlineUsers,
+            //         action.payload
+            //     ]
+            // if (!state.onlineUsers.find(item => item.userId !== action.payload.userId)) {
+            //     state.onlineUsers = [
+            //         ...state.onlineUsers,
+            //         action.payload
+            //     ]
+            // }
+            // const temp = new Set(state.onlineUsers)
+            // temp.add(action.payload)
+            state.onlineUsers = [...action.payload.online_user_list]
         },
         updateRoomVersion: (state, action) => {
             state.roomVersion = action.payload
@@ -53,5 +70,5 @@ const roomSlicer = createSlice({
     }
 })
 
-export const { initRoom, resetRoom, userJoinRoom, updateRoomVersion } = roomSlicer.actions
+export const { initRoom, resetRoom, userJoinRoom, updateRoomVersion, updataOnlineUserList } = roomSlicer.actions
 export default roomSlicer.reducer

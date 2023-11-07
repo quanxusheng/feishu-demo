@@ -6,6 +6,8 @@ import {sheetTemplateCreator} from '../utils'
 
 import { OperationSheet } from '@/socket/messageEmiter'
 
+import {pushToRetentionOperations} from '@/socket/socketQueue'
+
 
 const initialState: {
     [columnId: string]: Sheet
@@ -62,24 +64,31 @@ const sheetsSlice = createSlice({
             const viewId = Object.values(views)[0].id
             const columnId = Object.values(columns)[0].id
             // console.log('=>action.payload', action.payload)
-                OperationSheet({
+
+            pushToRetentionOperations({
+                roomVersion: action.payload.roomVersion + 1,
+                executor: () => OperationSheet({
                     ...action.payload,
-                    sheetId: id,
-                    sheetName: name,
+                    id,
+                    name,
                     viewId,
-                    columnId
-
-                    // roomId: sheetUrlParams.
+                    columnId,
+                    roomVersion: action.payload.roomVersion + 1,
                 })
-
+            })
+        },
+        applyOriginAddSheet(state, action) {
+            // console.log('=>state', state)
+            // console.log('=>action', action)
+            state[action.payload.id] = action.payload
         },
         updataSheet: (state, action) => {
-            // console.log('=>updataSheet', action)
-            const {sheetId, viewId, rowId, colId, value} = action.payload
-            state[sheetId].rows[rowId][colId] = value
+            console.log('=>updataSheet', action)
+            const {path, oi, sheetId} = action.payload
+            state[sheetId].rows[path[0]][path[1]] = oi
             
         }
     }
 })
-export const {updataSheet, createSheet} = sheetsSlice.actions
+export const {updataSheet, createSheet, applyOriginAddSheet} = sheetsSlice.actions
 export default sheetsSlice.reducer

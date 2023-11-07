@@ -1,4 +1,4 @@
-import { Box, Header as HeaderContainer, Button, Avatar, Menu, Text, Card } from '@mantine/core'
+import { Box, Header as HeaderContainer, Button, Avatar, Menu, Text, Card, Flex } from '@mantine/core'
 import UserCenterDropdown from './components/UserCenterDropdown'
 import useUserWorker from '../../../../hooks/useUserWorker'
 
@@ -14,7 +14,7 @@ export default function Header() {
     const { user: { username } } = useUserWorker()
     const len = username.length
     const name = len > 2 ? username.slice(len - 2, len) : username
-    // console.log('=>roomInfo', roomInfo)
+    console.log('=>roomInfo', roomInfo)
     // console.log('=>roomInfo.onlineUsers', roomInfo.onlineUsers)
 
     return (
@@ -26,12 +26,18 @@ export default function Header() {
 
                 <Card withBorder shadow='lg' padding='lg' className='w-6/12'>
                     <Card.Section>
-                        {
-                            map(Array.from(roomInfo.onlineUsers), item => {
-                                return <Box key={item.userId}>{item.username}</Box>
-                            })
-                            //  return <Box key={item.userId}>{item.username}</Box>
-                        }
+                        <Flex>
+                            {
+                                map(roomInfo.onlineUsers, item => {
+                                    return (
+                                        <Box key={item.userId}>
+                                            <Avatar src={item.avatar} radius="xl" size='sm' alt="it's me" />
+                                            <Text >{item.username}</Text>
+                                        </Box>
+                                    )
+                                })
+                            }
+                        </Flex>
                     </Card.Section>
                 </Card>
 

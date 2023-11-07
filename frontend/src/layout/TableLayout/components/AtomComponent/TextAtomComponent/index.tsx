@@ -2,17 +2,16 @@ import { Textarea, Input } from "@mantine/core";
 import { WorkInProgressCellType } from "@/pages/Sheet/components/TableView";
 import { useCallback, useEffect, useRef } from "react";
 import useSheets from '@/hooks/useSheets'
-import { OperationEmiter } from '@/socket/messageEmiter/index'
 
 interface AtomComponentType extends WorkInProgressCellType {
     destroyAtomComponent: VoidFunction
 }
 
 export default function TextAtomComponent(props: AtomComponentType) {
-    console.log('=>props', props)
+    // console.log('=>props', props)
     const { width } = props
 
-    const { updataSheetDispather } = useSheets()
+    const { setCellValue } = useSheets()
     const TextAtomComponentRef = useRef<HTMLInputElement>()
     // const TextAtomComponentRef = useRef<HTMLTextAreaElement>()
 
@@ -24,21 +23,22 @@ export default function TextAtomComponent(props: AtomComponentType) {
 
 
     const handleBlur = useCallback((event) => {
-        console.log('=>失去焦点了',)
+        // console.log('=>失去焦点了',)
         const { rowId, colId } = props
-        OperationEmiter({
+        // OperationEmiter({
+        //     oi: event.target.value,
+        //     od: props.value,
+        //     path: [rowId, colId],
+        //     operation: 'updataSheet'
+        // })
+        setCellValue({
             oi: event.target.value,
             od: props.value,
             path: [rowId, colId],
             operation: 'updataSheet'
         })
-        // updataSheetDispather({
-        //     ...props,
-        //     oldVal: props.value,
-        //     value: event.target.value
-        // })
         props.destroyAtomComponent()
-    }, [props])
+    }, [props, setCellValue])
 
 
     return (

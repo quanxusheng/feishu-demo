@@ -11,9 +11,17 @@ import useUserWorker from '../../hooks/useUserWorker';
 import Header from './components/Header'
 import Navbar from './components/Navbar'
 
+// import { openDB } from 'idb'
+
 
 export default function TableLayout(props: PropsWithChildren) {
     useSocket()
+
+    // const initialDB = async () => {
+    //     const db = await openDB('sheet-db')
+    //     console.log('=>db', db)
+    // }
+    // initialDB()
 
     return (
         <AppShell

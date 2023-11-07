@@ -7,4 +7,9 @@ export default function OperationMessageResolver(socket:Socket, params:AddSheetP
         type: ValidMessageType.OperationSheet,
         params
     })
+
+    socket.emit('message', {
+        type: ValidMessageType.VersionConfirm,
+        params: params.roomVersion
+    })
 }

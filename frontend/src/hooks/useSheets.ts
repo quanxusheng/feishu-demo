@@ -10,6 +10,8 @@ import { Sheet } from '../store/types'
 import { OperationEmiter } from '@/socket/messageEmiter'
 import { updateRoomVersion } from '@/store/slicers/WorkInProgressRoomInfo'
 
+import { OriginOperationParams} from '@/socket/types'
+
 
 
 
@@ -30,27 +32,6 @@ export default function useSheets() {
             viewId: params.viewId,
         }
     }, [params.roomId, params.sheetId, params.viewId])
-
-    const createSheetDispatcher = (sheetName?: string) => {
-        dispatch(createSheet({
-            name: sheetName,
-            roomId: sheetUrlParams.roomId,
-            roomVersion: workInProgressRoomInfo.roomVersion + 1
-        }))
-        dispatch(updateRoomVersion(workInProgressRoomInfo.roomVersion + 1))
-    }
-
-    const updataSheetDispather = useCallback((payload) => {
-        const { value, rowId, colId, oldVal } = payload
-        console.log('=>payload', payload)
-        dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
-        // OperationEmiter({
-        //     oi: value,
-        //     od: oldVal,
-        //     path: [rowId, colId],
-        //     operation: 'updataSheet'
-        // })
-    }, [dispatch, sheetUrlParams])
 
     const getTargetSheetViewsArr = useCallback((sheetId) => {
         return Object.values(sheets[sheetId].views)
@@ -85,6 +66,30 @@ export default function useSheets() {
         navigate(`/base/${sheetId}/${viewId}`)
     }, [getTargetSheetViewsArr, navigate])
 
+    
+    const createSheetDispatcher = useCallback((sheetName?: string) => {
+        dispatch(createSheet({
+            name: sheetName,
+            roomId: sheetUrlParams.roomId,
+            roomVersion: workInProgressRoomInfo.roomVersion + 1
+        }))
+        dispatch(updateRoomVersion(workInProgressRoomInfo.roomVersion + 1))
+    },[dispatch, sheetUrlParams.roomId, workInProgressRoomInfo.roomVersion])
+
+    const setCellValue = useCallback((params:OriginOperationParams) => {
+        OperationEmiter({
+            ...params,
+            payload: {
+                roomId: sheetUrlParams.roomId
+            }
+        })
+    }, [sheetUrlParams.roomId])
+
+    const updataSheetDispather = useCallback((payload) => {
+        console.log('=>payload', payload)
+        dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
+    }, [dispatch, sheetUrlParams])
+
     return {
         sheets,
         sheetsArr,
@@ -95,5 +100,6 @@ export default function useSheets() {
         updataSheetDispather,
         navigatorToTargetView,
         getTargetSheetViewsArr,
+        setCellValue,
     }
 }

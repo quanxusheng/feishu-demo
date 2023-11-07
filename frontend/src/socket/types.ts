@@ -1,5 +1,3 @@
-import { Key } from "react"
-
 
 export enum ValidMessageType {
     JoinRoom = 'JoinRoom',
@@ -14,7 +12,7 @@ export type ValidOperationType = 'addSheet' | 'updataSheet'
 export interface OriginOperationParams<PayloadType = any> {
     oi: string | number | null // operation insert 实际插入的值
     od: string | number | null // operation delete 实际删除的值
-    path: Key[] // 操作的具体位置
+    path: (string | number)[] // 操作的具体位置
     operation: ValidOperationType // 操作的类型
     payload?: PayloadType// 预留额外的参数
 }
@@ -74,8 +72,8 @@ export interface VersionConfirmMessage {
 }
 
 export interface AddSheetParams extends AddSheetOriginPayload {
-    sheetId: string,
-    sheetName: string,
+    id: string,
+    name: string,
 }
 
 export interface OperationSheetMessage {

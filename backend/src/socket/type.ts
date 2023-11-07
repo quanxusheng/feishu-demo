@@ -73,8 +73,8 @@ export interface VersionConfirmMessage {
 }
 
 export interface AddSheetParams extends OriginOperationPayload {
-    sheetId: string,
-    sheetName: string
+    id: string,
+    name: string
 }
 
 export interface OperationSheetMessage {
