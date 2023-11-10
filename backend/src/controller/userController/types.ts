@@ -1,5 +1,6 @@
 
 export interface UserLoginParam {
     username: string
-    password: string
+    email: string
+    // password?: string
 }

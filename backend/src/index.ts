@@ -4,6 +4,8 @@ import { Server } from 'socket.io'
 import bodyParser from 'koa-bodyparser'
 import routesInstaller from './routes'
 import socketConnectionResolver from './socket'
+import mongoose from 'mongoose'
+// import './db'
 
 const app = new Koa()
 const server = createServer(app.callback())
@@ -28,3 +30,5 @@ routesInstaller(app)
 app.listen(port, () => {
 //   console.log('=>listen', 'success')
 })
+
+mongoose.connect('mongodb://localhost:27017/sheetdb')

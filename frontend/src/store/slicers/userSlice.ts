@@ -35,6 +35,7 @@ const userSlice = createSlice({
             console.log('=>login-state', state)
             console.log('=>login-action', action)
             Object.assign(state, action.payload)
+            localStorage.setItem('userId', action.payload.userId)
         },
         logout: () => {
 
