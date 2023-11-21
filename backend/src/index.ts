@@ -31,4 +31,4 @@ app.listen(port, () => {
 //   console.log('=>listen', 'success')
 })
 
-mongoose.connect('mongodb://localhost:27017/sheetdb')
+mongoose.connect('mongodb://127.0.0.1/sheetdb')

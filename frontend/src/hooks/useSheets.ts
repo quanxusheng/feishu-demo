@@ -86,7 +86,7 @@ export default function useSheets() {
     }, [sheetUrlParams.roomId])
 
     const updataSheetDispather = useCallback((payload) => {
-        console.log('=>payload', payload)
+        // console.log('=>payload', payload)
         dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
     }, [dispatch, sheetUrlParams])
 

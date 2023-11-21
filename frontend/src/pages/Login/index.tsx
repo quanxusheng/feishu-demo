@@ -6,38 +6,38 @@ import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
 export default function Login() {
+    const arr = ['林国瑞', '林玟书', '林雅南', '江奕云', '刘柏宏', '阮建安', '夏志豪', '吉茹定', '黄文隆', '林子帆']
 
     const to = useNavigate()
 
     const mForm = useForm({
         initialValues: {
-            name: '',
-            email: '',
+            username: arr[(Math.random() * 10).toFixed()],
+            email: `${randomId().slice(9,)}@test.com`
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email')
         }
     })
 
-    const arr = ['林国瑞', '林玟书', '林雅南', '江奕云', '刘柏宏', '阮建安', '夏志豪', '吉茹定', '黄文隆', '林子帆']
+
 
     const handleLogin = async () => {
-        // mForm.setValues({
-        //     name: arr[(Math.random() * 10).toFixed()],
-        //     email: `${randomId()}@test.com`
-        // })
-        const params = {
-            username: arr[(Math.random() * 10).toFixed()],
-            email: `${randomId()}@test.com`
-        }
-        axios.post('/login', params)
-            .then(res => {
-                console.log('=>', res)
-                console.log('=>ddd', res.data)
-                if (res.data.code === '200') {
-                    // to('/base/')
-                }
-            })
+        console.log('=mForm>', mForm)
+        console.log('=mForm>', mForm.values)
+        // const randomId = Math.random()
+        // const params = {
+        //     username: arr[(randomId * 10).toFixed()],
+        //     email: `${randomId}@test.com`
+        // }
+        // axios.post('/login', params)
+        //     .then(res => {
+        //         console.log('=>', res)
+        //         // console.log('=>ddd', res.data)
+        //         if (res.data.code === '200') {
+        //             to('/base/aa/7d690de4-e9e5-43de-8721-6845e20527d7/07827929-4e3f-4f35-b5d9-17cee01a5cdf')
+        //         }
+        //     })
     }
     return (
         <Center style={{ height: '100vh' }}>
@@ -45,9 +45,9 @@ export default function Login() {
                 <Paper shadow='md' className='p-10'>
                     <form>
                         <TextInput
-                            label="Name"
+                            label="Username"
                             required
-                            {...mForm.getInputProps('name')}
+                            {...mForm.getInputProps('username')}
                         />
                         <TextInput
                             label="Email"

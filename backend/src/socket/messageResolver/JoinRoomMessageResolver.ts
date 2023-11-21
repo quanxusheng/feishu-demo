@@ -12,14 +12,14 @@ const init = async (params:JoinRoomParams) => {
     //     const a = await onlineUserSchema.create(params)
     //     console.log('=>a', a)
     // }
-    // await onlineUserSchema.deleteMany({})
-    await onlineUserSchema.create(params)
-    return await onlineUserSchema.find()
+    return await onlineUserSchema.create(params)
+    // return await onlineUserSchema.find()
 }
 
 // const online_user_list:any = {}
 
 export default async function JoinRoomMessageResolver(socket: Socket, params: JoinRoomParams){
+    // const online_user_list = null
     const online_user_list = await init(params)
     console.log('=>online_user_list', online_user_list)
     // console.log('=>8888', params)
@@ -40,7 +40,7 @@ export default async function JoinRoomMessageResolver(socket: Socket, params: Jo
         params: {
             ...params,
             username: `${username}${userId.slice(0, 2)}`,
-            online_user_list
+            // online_user_list
             // online_user_list: Object.values(online_user_list)
         }
     })

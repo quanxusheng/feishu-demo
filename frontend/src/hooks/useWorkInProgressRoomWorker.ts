@@ -14,6 +14,7 @@ export default function useWorkInProgressWorker() {
     const roomInfo = useSelector((state: RootState) => state.workInProgressRoomInfo)
 
     const userJoinRoomDispatcher = useCallback((payload: JoinRoomParams) => {
+        console.log('=888>', payload)
         dispatch(updataOnlineUserList({
             ...payload
         }))

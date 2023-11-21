@@ -15,5 +15,5 @@ const onlineUserSchema = new mongoose.Schema({
             require: true
         },
     })
-onlineUserSchema.index({userId: 1}, {unique: true})
+// onlineUserSchema.index({userId: 1}, {unique: true})
 export default mongoose.model('onlineUserSchema', onlineUserSchema)
