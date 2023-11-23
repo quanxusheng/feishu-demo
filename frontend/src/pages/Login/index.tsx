@@ -1,43 +1,39 @@
 import { Box, Paper, TextInput, Button, Group, Center, Container, Text } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { randomId } from '@mantine/hooks'
-
 import { useNavigate } from 'react-router-dom'
-
+import { faker } from '@faker-js/faker'
 import axios from 'axios'
+
+import useUserWorker from '@/hooks/useUserWorker'
+
 export default function Login() {
-    const arr = ['林国瑞', '林玟书', '林雅南', '江奕云', '刘柏宏', '阮建安', '夏志豪', '吉茹定', '黄文隆', '林子帆']
 
     const to = useNavigate()
+    const { userName, email } = faker.internet
+
+    const { login } = useUserWorker()
 
     const mForm = useForm({
         initialValues: {
-            username: arr[(Math.random() * 10).toFixed()],
-            email: `${randomId().slice(9,)}@test.com`
+            username: userName(),
+            email: email()
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email')
         }
     })
 
-
-
     const handleLogin = async () => {
-        console.log('=mForm>', mForm)
-        console.log('=mForm>', mForm.values)
-        // const randomId = Math.random()
-        // const params = {
-        //     username: arr[(randomId * 10).toFixed()],
-        //     email: `${randomId}@test.com`
-        // }
-        // axios.post('/login', params)
-        //     .then(res => {
-        //         console.log('=>', res)
-        //         // console.log('=>ddd', res.data)
-        //         if (res.data.code === '200') {
-        //             to('/base/aa/7d690de4-e9e5-43de-8721-6845e20527d7/07827929-4e3f-4f35-b5d9-17cee01a5cdf')
-        //         }
-        //     })
+        axios.post('/login', mForm.values)
+            .then(res => {
+                console.log('=>', res)
+                const { code, data } = res.data
+                if (code === 200) {
+                    login(data)
+                    // localStorage.setItem('userId', data.userId)
+                    to('/base/aa/7d690de4-e9e5-43de-8721-6845e20527d7/07827929-4e3f-4f35-b5d9-17cee01a5cdf')
+                }
+            })
     }
     return (
         <Center style={{ height: '100vh' }}>
