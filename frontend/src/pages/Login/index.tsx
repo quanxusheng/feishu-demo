@@ -15,8 +15,10 @@ export default function Login() {
 
     const mForm = useForm({
         initialValues: {
-            username: userName(),
-            email: email()
+            // username: userName(),
+            // email: email()
+            username: 'alex',
+            email: '466973739@qq.com'
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email')

@@ -21,7 +21,7 @@ const user = new Schema(
             trim: true
         },
         avatar: {
-            type: String
+            type: String    
         },
         registerTime: {
             type: Date,

@@ -22,10 +22,12 @@ const userSlice = createSlice({
         login: (state, action) => {
             console.log('=>login-state', state)
             console.log('=>login-action', action)
+
             Object.assign(state, action.payload)
             localStorage.setItem('userId', action.payload.userId)
+            localStorage.setItem('userInfo', JSON.stringify(action.payload))
         },
-        
+
         modifyUserInfo: (state, action) => {
             // console.log('=>modifyUserInfo', state)
             // console.log('=>modifyUserInfo-action', action)
