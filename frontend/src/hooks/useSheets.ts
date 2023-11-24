@@ -90,6 +90,10 @@ export default function useSheets() {
         dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
     }, [dispatch, sheetUrlParams])
 
+    const getAllSheets = useCallback(() => {
+        
+    }, [])
+
     return {
         sheets,
         sheetsArr,

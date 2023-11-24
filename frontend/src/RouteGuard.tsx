@@ -15,7 +15,6 @@ export default function RouteGuard() {
         // if (!userId && location.pathname !== '/login') {
         console.log('=>!userId', !userId)
         if (!userId) {
-
             navigate('/login')
         }
     }, [location, navigate])

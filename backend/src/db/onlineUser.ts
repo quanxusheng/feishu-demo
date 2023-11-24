@@ -2,14 +2,15 @@ import mongoose from "mongoose";
 
 
 const onlineUserSchema = new mongoose.Schema({
-        username: {
+    id: {
             type: String,
             require: true
         },
-        userId: {
+        name: {
             type: String,
             require: true
         },
+        
         avatar: {
             type: String,
             require: true

@@ -33,7 +33,7 @@ export default function Login() {
                 if (code === 200) {
                     login(data)
                     // localStorage.setItem('userId', data.userId)
-                    to('/base/aa/7d690de4-e9e5-43de-8721-6845e20527d7/07827929-4e3f-4f35-b5d9-17cee01a5cdf')
+                    to(`/base/`)
                 }
             })
     }

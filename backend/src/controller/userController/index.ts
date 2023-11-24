@@ -1,44 +1,58 @@
 import { UserLoginParam } from './types'
 import userdb from '../../db/user'
 
+import { createDefaultSheet } from '../sheetController'
 // import { v4 as uuid } from 'uuid'
-import {faker} from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 
-async function register(params: UserLoginParam) {
-    const { uuid } = faker.string
-    const { avatar } = faker.image
-    params.userId = uuid()
-    params.avatar = avatar()
-    await userdb.create(params)
-}
 
 export const login = async function(params: UserLoginParam) {
-    let returnResult = null
-    const userlist = await userdb.find()
-    const exist = userlist.find(f => f.email === params.email)
-    console.log('=>exist', exist)
+    let result:any = await userdb.findOne({email: params.email})
+    // console.log('=>result', result)
 
     // 未注册
-    if (!exist) {
-        await register(params)
+    if (!result) {
+        result = await register(params)
     }
+    console.log('=>result111', result)
     
     return new Promise((resolve) => {
         setTimeout(() => {
-            if (exist) {
-                returnResult = {
-                    msg: '用户已注册',
+            resolve(
+                {
+                    msg: '登录成功',
                     code: 200,
-                    data: params
+                    data: result
                 }
-            } else {
-                returnResult = {
-                    msg: '用户注册成功',
-                    code: 200,
-                    data: params
-                }
-            }
-            resolve(returnResult)
-        }, 2000)
+            )
+        }, 1000)
     })
+}
+
+async function register(payload: UserLoginParam) {
+    const params = { ...payload }
+
+    const { uuid } = faker.string
+    const { avatar } = faker.image
+    params.id = uuid()
+    params.avatar = avatar()
+    let user = await userdb.create(params)
+    let result = null
+    console.log('=>user', user)
+    let sheetData = null
+    if (user) {
+        const {id: userId, username, email, avatar} = user
+        sheetData = await createDefaultSheet(params)
+        result = {
+            userId,
+            username,
+            email,
+            avatar,
+            sheetId: sheetData?.id,
+            sheetName: sheetData?.sheetName,
+            sheetTableList: sheetData?.tableList
+        }
+    }
+    
+    return result
 }

@@ -37,16 +37,29 @@ export interface View {
 
 // 表的类型
 
-export interface Sheet {
+interface Table {
     id: string
     name: string
     columns: {
         [columnId: string]: Column<any>
     }
-    views: {
-        [viewId: string]: View
-    },
     rows: {
         [rowId: string]: Row
     }
+}
+
+export interface Sheet {
+    id: string
+    name: string
+    tableList: Table[]
+
+    // columns: {
+    //     [columnId: string]: Column<any>
+    // }
+    // views: {
+    //     [viewId: string]: View
+    // },
+    // rows: {
+    //     [rowId: string]: Row
+    // }
 }

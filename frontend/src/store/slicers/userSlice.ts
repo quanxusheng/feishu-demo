@@ -20,8 +20,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
-            console.log('=>login-state', state)
-            console.log('=>login-action', action)
+            // console.log('=>login-action', action)
 
             Object.assign(state, action.payload)
             localStorage.setItem('userId', action.payload.userId)

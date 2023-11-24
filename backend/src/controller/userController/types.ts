@@ -1,8 +1,8 @@
 
 export interface UserLoginParam {
+    id?: string
     username: string
     email: string
-    userId?: string
     avatar?: string
     registerTime?: string
     // password?: string

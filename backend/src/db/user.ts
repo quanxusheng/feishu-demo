@@ -3,7 +3,7 @@ import { Schema, model }  from 'mongoose'
 
 const user = new Schema(
     {
-        userId: {
+        id: {
             type: String,
             require: true,
             unique: true,
@@ -27,12 +27,17 @@ const user = new Schema(
             type: Date,
             default: Date.now()
         },
+        sheetList: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'sheet'
+            }
+        ]
     }, 
     { 
-        // _id: false,
         strict: false,
      }
 )
-user.index({userId: 1, username: 1, email: 1}, {unique: true})
+user.index({id: 1, username: 1, email: 1}, {unique: true})
 
 export default model('user', user)
