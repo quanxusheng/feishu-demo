@@ -57,7 +57,7 @@ const sheetsSlice = createSlice({
     name: 'sheets',
     initialState,
     reducers: {
-        getAllSheets(state,action) {
+        getOriginSheetsData(state,action) {
             state = action.payload
         },
         createSheet: (state, action) => {
@@ -95,5 +95,5 @@ const sheetsSlice = createSlice({
         }
     }
 })
-export const { getAllSheets, updataSheet, createSheet, applyOriginAddSheet } = sheetsSlice.actions
+export const { getOriginSheetsData, updataSheet, createSheet, applyOriginAddSheet } = sheetsSlice.actions
 export default sheetsSlice.reducer

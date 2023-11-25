@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import {get, omit} from 'lodash-es'
 
 import { RootState } from '../store'
-import { createSheet, updataSheet } from '../store/slicers/sheetsSlice'
+import { createSheet, updataSheet, getOriginSheetsData } from '../store/slicers/sheetsSlice'
 import { Sheet } from '../store/types'
 import { OperationEmiter } from '@/socket/messageEmiter'
 import { updateRoomVersion } from '@/store/slicers/WorkInProgressRoomInfo'
@@ -90,11 +90,13 @@ export default function useSheets() {
         dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
     }, [dispatch, sheetUrlParams])
 
-    const getAllSheets = useCallback(() => {
-        
-    }, [])
 
-    return {
+
+    const getOriginSheetsDataDispatcher = useCallback((data) => {
+        dispatch(getOriginSheetsData(data))
+    }, [dispatch])
+
+    return {    
         sheets,
         sheetsArr,
         sheetUrlParams,
@@ -105,5 +107,6 @@ export default function useSheets() {
         navigatorToTargetView,
         getTargetSheetViewsArr,
         setCellValue,
+        getOriginSheetsDataDispatcher
     }
 }

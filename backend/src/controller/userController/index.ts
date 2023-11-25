@@ -48,9 +48,12 @@ async function register(payload: UserLoginParam) {
             username,
             email,
             avatar,
-            sheetId: sheetData?.id,
-            sheetName: sheetData?.sheetName,
-            sheetTableList: sheetData?.tableList
+            sheetData
+            // sheetData: {
+            //     sheetId: sheetData?.id,
+            //     sheetName: sheetData?.sheetName,
+            //     sheetTableList: sheetData?.tableList
+            // }
         }
     }
     

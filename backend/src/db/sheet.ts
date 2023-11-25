@@ -21,6 +21,29 @@ const sheetSchema = new Schema(
                 tableName:{
                     type: String
                 },
+                rows: [
+                    {
+                        id: {
+                            type: String
+                        },
+                        columnId: {
+                            type: String
+                        }
+                    }
+                ],
+                columns: [
+                    {
+                        id: {
+                            type: String
+                        },
+                        name: {
+                            type: String
+                        },
+                        type: {
+                            type: String
+                        }
+                    }
+                ]
             }
         ],
         creator: {
