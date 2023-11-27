@@ -11,7 +11,7 @@ const routes = createBrowserRouter([
         element: <RouteGuard />,
         children: [
             {
-                path: '/base/:roomId/:sheetId/:viewId',
+                path: '/base/:sheetId',
                 element: <Sheet />
             },
             {

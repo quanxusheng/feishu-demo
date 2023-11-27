@@ -38,7 +38,7 @@ export interface OriginOperationParams<payloadType =  any> {
 }
 
 export interface OriginOperationPayload {
-    roomId: string
+    sheetId: string
     roomVersion: number
 }
 

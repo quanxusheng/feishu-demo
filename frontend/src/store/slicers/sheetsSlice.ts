@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuid} from 'uuid'
 
 import { Sheet } from '../types'
-import {sheetTemplateCreator} from '../utils'
+// import {sheetTemplateCreator} from '../utils'
 
 import { OperationSheet } from '@/socket/messageEmiter'
 
@@ -89,8 +89,8 @@ const sheetsSlice = createSlice({
         },
         updataSheet: (state, action) => {
             console.log('=>updataSheet', action)
-            const {path, oi, sheetId} = action.payload
-            state[sheetId].rows[path[0]][path[1]] = oi
+            const {path, oi, tableId} = action.payload
+            state[tableId].rows[path[0]][path[1]] = oi
             
         }
     }

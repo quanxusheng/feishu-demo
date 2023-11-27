@@ -22,7 +22,7 @@ export default function useSocket() {
     const { user } = useUserWorker()
     const { roomInfo, userJoinRoomDispatcher } = useWorkInProgressWorker()
     // console.log('=>roomInfo', roomInfo)
-    const { sheetUrlParams: { roomId }, updataSheetDispather } = useSheets()
+    const { sheetUrlParams, updataSheetDispather } = useSheets()
     const { applyOriginAddSheetOperation } = useApplyAddSheet()
 
     const startConnect = () => {
@@ -32,7 +32,7 @@ export default function useSocket() {
             // 1.触发joinRoom事件
             // 2.监听服务端的推送
             // 3.开启滞留operation队列
-            JoinRoomEmiter({ ...user, roomId })
+            JoinRoomEmiter({ ...user, sheetId: sheetUrlParams.sheetId })
             watchSocketEvents()
             enableSocketQueue()
 

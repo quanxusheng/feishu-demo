@@ -19,7 +19,7 @@ export interface OriginOperationParams<PayloadType = any> {
 }
 
 export interface OriginOperationPayload {
-    roomId: string
+    sheetId: string
     roomVersion: number
 }
 
@@ -34,7 +34,7 @@ export interface AddSheetOperationParams extends OriginOperationParams<AddSheetO
 }
 
 export interface OriginRoomParams {
-    roomId: string
+    sheetId: string
     userId: string
 }
 
@@ -61,7 +61,7 @@ export interface FocusMessage {
     type: ValidMessageType.Focus,
     params: {
         userId: string
-        path: string[] // sheetId viewId rowId columnId
+        path: string[] // tableId viewId rowId columnId
     }
 }
 

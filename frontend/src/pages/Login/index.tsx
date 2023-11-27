@@ -10,10 +10,11 @@ import useUserSheets from '@/hooks/useSheets'
 export default function Login() {
 
     const to = useNavigate()
+
     const { userName, email } = faker.internet
 
-    const { login } = useUserWorker()
-    const { getOriginSheetsDataDispatcher } = useUserSheets()
+    const { dispatchLogin } = useUserWorker()
+    // const { getOriginSheetsDataDispatcher } = useUserSheets()
 
     const mForm = useForm({
         initialValues: {
@@ -33,10 +34,10 @@ export default function Login() {
                 console.log('=>', res)
                 const { code, data } = res.data
                 if (code === 200) {
-                    login(data)
+                    dispatchLogin(data)
 
                     const tempData = res.data.sheetData
-                    getOriginSheetsDataDispatcher(tempData)
+                    // getOriginSheetsDataDispatcher(tempData)
 
                     const sheetId = tempData.id
                     const tabData = tempData.tableList[0]

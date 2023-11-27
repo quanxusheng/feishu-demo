@@ -4,9 +4,9 @@ import { RootState } from '../store'
 
 export default function useUserWorker() {
     const user = useSelector((state:RootState) => state.user)
-    console.log('=>useUserWorker', user)
+    // console.log('=>useUserWorker', user)
     const dispatch = useDispatch()
-    const login = (args) => {
+    const dispatchLogin = (args) => {
         // const userId = localStorage.getItem('userId')
         // !userId && dispatch(loginActionCreator(args))
 
@@ -17,7 +17,7 @@ export default function useUserWorker() {
     }
     return {
         user,
-        login,
+        dispatchLogin,
         modify
     }
 }

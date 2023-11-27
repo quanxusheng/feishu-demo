@@ -1,9 +1,9 @@
 // 生成模块
 
 import {v4 as uuid} from 'uuid'
-
-
 import {ColumnConfig, View, Column, Sheet, Row} from './types'
+
+alert(123)
 
 export const viewTemplateCreator: (name: string, columnsIdArr: string[], viewId?: string) => View = (name, columnsIdArr, viewId) => {
 
@@ -32,36 +32,36 @@ export const rowInitTemplateCreator: (columnId:string, rowId?: string) => Row = 
     }
 }
 
-export const columnInitTemplateCreator: (name: string, columnId?: string) => Column<'TEXT'> = (name, columnId) => {
-    return {
-        id: columnId || uuid(),
-        name: '多行文本',
-        columnType: 'TEXT',
-        columnProps: {}
-    }
-}
+// export const columnInitTemplateCreator: (name: string, columnId?: string) => Column<'TEXT'> = (name, columnId) => {
+//     return {
+//         id: columnId || uuid(),
+//         name: '多行文本',
+//         columnType: 'TEXT',
+//         columnProps: {}
+//     }
+// }
 
-export const sheetTemplateCreator: (name: string, message?: object) => Sheet = (name, message) => {
-    console.log('=>messagemessage',message )
+// export const sheetTemplateCreator: (name: string, message?: object) => Sheet = (name, message) => {
+//     console.log('=>messagemessage',message )
 
-    const sheetId = uuid()
-    const defaultTextColumn = columnInitTemplateCreator('多行文本', uuid())
-    const defaultRow = rowInitTemplateCreator(defaultTextColumn.id, uuid())
-    const defaultView = viewTemplateCreator('表格视图', [defaultTextColumn.id])
+//     const tableId = uuid()
+//     const defaultTextColumn = columnInitTemplateCreator('多行文本', uuid())
+//     const defaultRow = rowInitTemplateCreator(defaultTextColumn.id, uuid())
+//     const defaultView = viewTemplateCreator('表格视图', [defaultTextColumn.id])
 
 
-    return {
-        id: sheetId,
-        name,
-        columns: {
-            [defaultTextColumn.id]: defaultTextColumn,
-        },
-        views: {
-            [defaultView.id]: defaultView
-        },
-        rows: {
-            [defaultRow.id]: defaultRow
-        }
-    }
+//     return {
+//         id: tableId,
+//         name,
+//         columns: {
+//             [defaultTextColumn.id]: defaultTextColumn,
+//         },
+//         views: {
+//             [defaultView.id]: defaultView
+//         },
+//         rows: {
+//             [defaultRow.id]: defaultRow
+//         }
+//     }
 
-}
+// }

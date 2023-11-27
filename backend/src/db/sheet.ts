@@ -43,11 +43,39 @@ const sheetSchema = new Schema(
                         id: {
                             type: String
                         },
+                        name: {
+                            type: String,
+                        },
                         type: {
                             type: String
+                        },
+                        width: {
+                                type: Number,
+                                default: 200
+                            },
+                        config: {
+                            desc: {
+                                type: String,
+                                require: false
+                            },
+                            options: {
+                                type: Array,
+                                require: false
+                            }
                         }
                     }
-                ]
+                ],
+                // columnsConfig: [
+                //     {
+                //         width: {
+                //             type: Number,
+                //             default: 200
+                //         },
+                //         desc: {
+                //             type: String
+                //         }
+                //     }
+                // ]
             }
         ],
         creator: {

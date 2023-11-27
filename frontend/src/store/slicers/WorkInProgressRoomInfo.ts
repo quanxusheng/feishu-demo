@@ -7,14 +7,14 @@ interface OnlineUsersType {
     username: string
 }
 export interface WorkInProgressRoomInfoType {
-    roomId: string
+    sheetId: string
     onlineUsers: OnlineUsersType[]
     roomVersion: number
 }
 
 
 const initialState: WorkInProgressRoomInfoType = {
-    roomId: '',
+    sheetId: '',
     onlineUsers: [],
     roomVersion: 0
 }
@@ -24,10 +24,10 @@ const roomSlicer = createSlice({
     name: 'roomInfo',
     reducers: {
         initRoom: (state, action) => {
-            state.roomId = action.payload
+            state.sheetId = action.payload
         },
         resetRoom: (state) => {
-            state.roomId = ''
+            state.sheetId = ''
             state.onlineUsers = []
         },
         userJoinRoom: (state, action: PayloadAction<OnlineUsersType>) => {

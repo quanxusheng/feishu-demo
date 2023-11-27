@@ -20,8 +20,8 @@ export default function useWorkInProgressWorker() {
         }))
     }, [dispatch])
 
-    // const initRoomDispatcher = useCallback((roomId: string) => {
-    //     dispatch(initRoom(roomId))
+    // const initRoomDispatcher = useCallback((sheetId: string) => {
+    //     dispatch(initRoom(sheetId))
     // }, [dispatch])
 
     // const operationMessage

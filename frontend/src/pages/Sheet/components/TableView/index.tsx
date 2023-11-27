@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 import { Box, Text, Textarea } from '@mantine/core'
 import { Fragment, useCallback, useState, useRef, Key } from 'react'
 import { KonvaEventObject } from 'konva/lib/Node'
@@ -15,20 +16,21 @@ export interface WorkInProgressCellType {
     x: Key,
     y: Key,
     colId: Key,
-    columnType: keyof ColumnMap,
+    type: keyof ColumnMap,
     width: Key,
     rowId: Key,
     value: Key
 }
 
 export default function TableView() {
-    const { getTargetSheetViewsArr, sheetUrlParams, getTargetViewRows, getTargetViewColumns } = getSheet()
-    // console.log('=>getTargetSheetViewsArr', getTargetSheetViewsArr(sheetUrlParams.sheetId))
+    const { getTargetSheetViewsArr, sheetUrlParams, getCurrentTable, getTargetViewColumns } = getSheet()
+    // console.log('=>getTargetSheetViewsArr', getTargetSheetViewsArr(sheetUrlParams.tableId))
 
-    const viewsArr = getTargetSheetViewsArr(sheetUrlParams.sheetId)
+    // const viewsArr = getTargetSheetViewsArr(sheetUrlParams.tableId)
     // console.log('=viewsArr>', viewsArr)
-    const { rowsArr } = getTargetViewRows
-    const { columnsArr, columnsConfig } = getTargetViewColumns
+    // const { rowsArr } = getTargetViewRows
+    const { table, rows, columns } = getCurrentTable
+    console.log('=>getCurrentTable', getCurrentTable)
     // console.log('=>columnsArr', columnsArr)
     // console.log('=>getTargetViewRows', getTargetViewRows)
     // console.log('=>getTargetViewColumns', getTargetViewColumns)
@@ -50,9 +52,10 @@ export default function TableView() {
             {/* 头部视图列表 */}
             <Box>
                 {
-                    map(viewsArr, view => {
-                        return <Box key={view.id}>{view.name}</Box>
-                    })
+                    // map(viewsArr, view => {
+                    //     return <Box key={view.id}>{view.name}</Box>
+                    // })
+                    <Box key={table.id}>{table.name}</Box>
                 }
             </Box>
 
@@ -62,11 +65,11 @@ export default function TableView() {
                         {/* <Html>
                         </Html> */}
                         {
-                            map(rowsArr, (row, rowIndex) => {
-                                return map(columnsArr, ({ id, columnType }) => {
+                            map(rows, (row, rowIndex) => {
+                                return map(columns, ({ id, type, width }) => {
                                     const colId = id
                                     const currntCol = row[colId]
-                                    const { width } = columnsConfig[colId]
+                                    // const { width } = columnsConfig[colId]
                                     const x = 0
                                     const y = 0
                                     return (
@@ -78,24 +81,25 @@ export default function TableView() {
                                                 padding={10}
                                                 wrap="none"
                                                 ellipsis
-                                                // x={x + 10}
-                                                y={rowIndex * 30}
+                                            // x={x + 10}
+                                            // y={rowIndex * 30}
                                             />
                                             <Rect
                                                 width={width}
                                                 height={30}
                                                 x={x}
-                                                y={rowIndex * 30}
+                                                // y={rowIndex * 30}
                                                 stroke='#ddd'
                                                 strokeWidth={1}
                                                 onDblClick={(event) => handleEditCell(event, {
                                                     x,
-                                                    y: rowIndex * 30,
+                                                    // y: rowIndex * 30,
                                                     colId,
-                                                    columnType,
+                                                    type,
                                                     width,
                                                     rowId: row.id,
-                                                    value: currntCol
+                                                    value: currntCol,
+                                                    y: ''
                                                 })}
                                             />
                                         </Fragment>
@@ -109,7 +113,7 @@ export default function TableView() {
                 <Box ref={fasterOverlayRef} className='absolute faster-overlay'>
                     {
                         workInProgressCell && (
-                            workInProgressCell.columnType === 'TEXT' &&
+                            workInProgressCell.type === 'TEXT' &&
                             <TextAtomComponent
                                 {...workInProgressCell}
                                 destroyAtomComponent={() => setWorkInProgressCell(null)}

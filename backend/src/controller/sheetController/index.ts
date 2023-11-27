@@ -16,11 +16,27 @@ interface DefaultRows {
 const defaultColumns = [
     {
         id: uuid(),
+        name: '文本',
         type: 'text',
+        width: 200
     },
     {
         id: uuid(),
-        type: 'select',
+        name: '单选',
+        type: 'selectSingle',
+        width: 200,
+        config: {
+            options: [
+                {
+                    label: '男',
+                    value: '1'
+                },
+                {
+                    label: '女',
+                    value: '0'
+                },
+            ]
+        }
     },
 ]
 
@@ -52,8 +68,34 @@ export const createDefaultSheet = async (params: UserLoginParam) => {
                 columns: defaultColumns
             }
         ],
+        creatorId: params.id,
         creator: params.username,
         createTime: Date.now()
     }
     return await sheet.create(initData)
+}
+
+export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
+    const initData = {
+        id: uuid(),
+        sheetName: faker.company.name(),
+        tableList: [
+            {
+                id: uuid(),
+                name: faker.commerce.department(),
+                rows: defaultRows(),
+                columns: defaultColumns
+            }
+        ],
+        creatorId: params.id,
+        creator: params.username,
+        createTime: Date.now()
+    }
+    return await sheet.findOneAndUpdate(
+        {
+            creatorId: params.id
+        },
+        { $setOnInsert: initData },
+        {new: true, upsert: true}
+    )
 }

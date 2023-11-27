@@ -15,12 +15,7 @@ export interface Row {
     [columnId: string]: string
 }
 
-export interface Column<ColumnType extends keyof ColumnMap> {
-    id: string,
-    name: string,
-    columnType: ColumnType
-    columnProps: ColumnMap[ColumnType]
-}
+
 
 export interface ColumnConfig {
     width: number
@@ -35,9 +30,18 @@ export interface View {
     }
 }
 
+export interface Column<ColumnType extends keyof ColumnMap> {
+    id: string,
+    name: string,
+    type: string,
+    config?: object
+    // columnType: ColumnType
+    // columnProps: ColumnMap[ColumnType]
+}
+
 // 表的类型
 
-interface Table {
+export interface Table {
     id: string
     name: string
     columns: {
