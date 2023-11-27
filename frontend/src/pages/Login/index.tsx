@@ -5,6 +5,7 @@ import { faker } from '@faker-js/faker'
 import axios from 'axios'
 
 import useUserWorker from '@/hooks/useUserWorker'
+import useUserSheets from '@/hooks/useSheets'
 
 export default function Login() {
 
@@ -12,6 +13,7 @@ export default function Login() {
     const { userName, email } = faker.internet
 
     const { login } = useUserWorker()
+    const { getOriginSheetsDataDispatcher } = useUserSheets()
 
     const mForm = useForm({
         initialValues: {
@@ -32,8 +34,13 @@ export default function Login() {
                 const { code, data } = res.data
                 if (code === 200) {
                     login(data)
-                    // localStorage.setItem('userId', data.userId)
-                    to(`/base/`)
+
+                    const tempData = res.data.sheetData
+                    getOriginSheetsDataDispatcher(tempData)
+
+                    const sheetId = tempData.id
+                    const tabData = tempData.tableList[0]
+                    to(`/base/${sheetId}/?table=${tabData.id}`)
                 }
             })
     }

@@ -18,7 +18,7 @@ const sheetSchema = new Schema(
                 id:{
                     type: String
                 },
-                tableName:{
+                name:{
                     type: String
                 },
                 rows: [
@@ -26,17 +26,21 @@ const sheetSchema = new Schema(
                         id: {
                             type: String
                         },
-                        columnId: {
-                            type: String
-                        }
+                        columns: [
+                            {
+                                id: {
+                                    type: String
+                                },
+                                value: {
+                                    type: String
+                                }
+                            }
+                        ]
                     }
                 ],
                 columns: [
                     {
                         id: {
-                            type: String
-                        },
-                        name: {
                             type: String
                         },
                         type: {

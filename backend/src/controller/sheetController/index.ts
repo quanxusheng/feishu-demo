@@ -6,7 +6,12 @@ import sheet from '../../db/sheet'
 
 interface DefaultRows {
     id: string
-    [key:string]: string
+    columns: [
+        {
+            id: string
+            value: string
+        }
+    ]
 }
 const defaultColumns = [
     {
@@ -18,25 +23,19 @@ const defaultColumns = [
         type: 'select',
     },
 ]
-defaultColumns.map(column => {
-    return {
-        id: uuid()
-    }
-})
 
 const defaultRows = (): DefaultRows[] => {
     return defaultColumns.map(column => {
         const data:DefaultRows = {
             id: uuid(),
+            columns: [
+                {
+                    id: column.id,
+                    value: ''
+                }
+            ]
         }
-        data[column.id] = ''
-        console.log('=>column.id', column.id)
-        console.log('=>data', data)
         return data
-        // return {
-        //     id: uuid(),
-        //     [column.id]: ''
-        // }
     })
 }
 
