@@ -8,7 +8,7 @@ import { Html } from 'react-konva-utils'
 
 import { ColumnMap } from '@/store/types'
 
-import getSheet from '@/hooks/useSheets'
+import getSheet from '@/hooks/useSheet'
 
 import TextAtomComponent from '@/layout/TableLayout/components/AtomComponent/TextAtomComponent'
 
@@ -23,8 +23,7 @@ export interface WorkInProgressCellType {
 }
 
 export default function TableView() {
-    const { getTargetSheetViewsArr, sheetUrlParams, getCurrentTable, getTargetViewColumns } = getSheet()
-    // console.log('=>getTargetSheetViewsArr', getTargetSheetViewsArr(sheetUrlParams.tableId))
+    const { sheetUrlParams, getCurrentTable, getTargetViewColumns } = getSheet()
 
     // const viewsArr = getTargetSheetViewsArr(sheetUrlParams.tableId)
     // console.log('=viewsArr>', viewsArr)
@@ -65,41 +64,41 @@ export default function TableView() {
                         {/* <Html>
                         </Html> */}
                         {
-                            map(rows, (row, rowIndex) => {
-                                return map(columns, ({ id, type, width }) => {
+                            map(rows, (row, index) => {
+                                return map(columns, ({ id, type, width, name }) => {
                                     const colId = id
+                                    const rowIndex = Number(index) + 1
                                     const currntCol = row[colId]
                                     // const { width } = columnsConfig[colId]
-                                    const x = 0
+                                    const x = width
                                     const y = 0
                                     return (
                                         <Fragment key={colId}>
                                             <CanvasText
                                                 width={width}
                                                 fontSize={15}
-                                                text={currntCol}
+                                                text={name}
                                                 padding={10}
                                                 wrap="none"
                                                 ellipsis
-                                            // x={x + 10}
-                                            // y={rowIndex * 30}
+                                                x={x + 10}
+                                                y={rowIndex * 30}
                                             />
                                             <Rect
                                                 width={width}
                                                 height={30}
                                                 x={x}
-                                                // y={rowIndex * 30}
+                                                y={rowIndex * 30}
                                                 stroke='#ddd'
                                                 strokeWidth={1}
                                                 onDblClick={(event) => handleEditCell(event, {
                                                     x,
-                                                    // y: rowIndex * 30,
+                                                    y: rowIndex * 30,
                                                     colId,
                                                     type,
                                                     width,
                                                     rowId: row.id,
-                                                    value: currntCol,
-                                                    y: ''
+                                                    value: name,
                                                 })}
                                             />
                                         </Fragment>

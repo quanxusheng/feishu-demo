@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './slicers/userSlice'
-import sheetReducer from './slicers/sheetsSlice'
+import sheetReducer from './slicers/sheetSlice'
 import roomReducer from './slicers/WorkInProgressRoomInfo'
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
-        sheets: sheetReducer,
+        sheet: sheetReducer,
         workInProgressRoomInfo: roomReducer
     }
 })

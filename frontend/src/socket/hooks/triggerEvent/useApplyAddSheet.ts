@@ -2,7 +2,7 @@
 
 import { AddSheetParams } from '@/socket/types'
 
-import {applyOriginAddSheet} from '@/store/slicers/sheetsSlice'
+import {applyOriginAddSheet} from '@/store/slicers/sheetSlice'
 
 import { useDispatch } from 'react-redux'
 export default function useApplyAddSheet(){

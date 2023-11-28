@@ -1,11 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux'
 import {useCallback, useMemo, Key} from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import queryString from 'query-string'
 
 import {get, omit} from 'lodash-es'
 
 import { RootState } from '../store'
-import { createSheet, updataSheet, getOriginSheetsData } from '../store/slicers/sheetsSlice'
+import { createSheet, updataSheet, getOriginSheetsData } from '../store/slicers/sheetSlice'
 import { Sheet, Table } from '../store/types'
 import { OperationEmiter } from '@/socket/messageEmiter'
 import { updateRoomVersion } from '@/store/slicers/WorkInProgressRoomInfo'
@@ -16,37 +17,40 @@ import { OriginOperationParams} from '@/socket/types'
 
 
 export default function useSheets() {
-    const sheets = useSelector((state: RootState) => state.sheets)
+    const sheet = 
+        useSelector((state: RootState) => state.sheet) ||
+        JSON.parse(localStorage.getItem('sheetData'))
+    console.log('=>sheetsheet', sheet)
     const workInProgressRoomInfo = useSelector((state:RootState) => state.workInProgressRoomInfo)
-    const sheetsArr = useMemo<Array<Table>>(() => {
-        return sheets && sheets.tableList
-    }, [sheets])
+    const sheetArr = useMemo<Array<Table>>(() => {
+        return sheet && sheet.tableList
+    }, [sheet])
     const dispatch = useDispatch()
     const to = useNavigate()
     const urlParams = useParams()
-    console.log('=>urlParams', urlParams)
-    
+    const location = useLocation()
+    const locationSearch = queryString.parse(location.search)
+    // console.log('=>urlParams', urlParams)
+    // console.log('=>location', location)
+    console.log('=>location', locationSearch)
 
     const sheetUrlParams = useMemo<{sheetId: string, tableId: string}>(() => {
         return {
             sheetId: urlParams.sheetId,
-            tableId: urlParams.tableId,
+            tableId: locationSearch.tableId as string,
         }
-    }, [urlParams.sheetId, urlParams.tableId])
-
-    const getTargetSheetViewsArr = useCallback((tableId) => {
-        return Object.values(sheets[tableId].views)
-    }, [sheets])
+    }, [urlParams.sheetId, locationSearch.tableId])
+    console.log('=>sheetUrlParams', sheetUrlParams)
 
     const getCurrentTable = useMemo(() => {
-        const table = get(sheets, urlParams.tableId)
+        const table = sheet.tableList.find(item => item.id === sheetUrlParams.tableId)
         console.log('=table>', table)
         return {
             table,
             rows: table.rows,
             columns: table.columns
         }
-    }, [urlParams.tableId, sheets])
+    }, [sheetUrlParams.tableId, sheet])
 
     // const currentTableRows = useMemo(() => {
     //     const { rows } = currentTable
@@ -103,23 +107,19 @@ export default function useSheets() {
 
 
 
-    const getOriginSheetsDataDispatcher = useCallback((data) => {
-        dispatch(getOriginSheetsData(data))
-    }, [dispatch])
 
     return {    
-        sheets,
+        sheet,
         
         getTargetViewColumns,
         createSheetDispatcher,
         updataSheetDispather,
         navigatorToTargetView,
-        getTargetSheetViewsArr,
         setCellValue,
 
-        getOriginSheetsDataDispatcher,
+        // getOriginSheetsDataDispatcher,
         getCurrentTable,
-        sheetsArr,
+        sheetArr,
         sheetUrlParams,
     }
 }

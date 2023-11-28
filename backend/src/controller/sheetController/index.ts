@@ -55,26 +55,6 @@ const defaultRows = (): DefaultRows[] => {
     })
 }
 
-
-export const createDefaultSheet = async (params: UserLoginParam) => {
-    const initData = {
-        id: uuid(),
-        sheetName: faker.company.name(),
-        tableList: [
-            {
-                id: uuid(),
-                name: faker.commerce.department(),
-                rows: defaultRows(),
-                columns: defaultColumns
-            }
-        ],
-        creatorId: params.id,
-        creator: params.username,
-        createTime: Date.now()
-    }
-    return await sheet.create(initData)
-}
-
 export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
     const initData = {
         id: uuid(),
@@ -97,5 +77,26 @@ export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
         },
         { $setOnInsert: initData },
         {new: true, upsert: true}
-    )
+    ).select('-_id -__v')
+}
+
+
+export const createDefaultSheet = async (params: UserLoginParam) => {
+    
+    const initData = {
+        id: uuid(),
+        sheetName: faker.company.name(),
+        tableList: [
+            {
+                id: uuid(),
+                name: faker.commerce.department(),
+                rows: defaultRows(),
+                columns: defaultColumns
+            }
+        ],
+        creatorId: params.id,
+        creator: params.username,
+        createTime: Date.now()
+    }
+    return await sheet.create(initData)
 }

@@ -82,6 +82,10 @@ const sheetSchema = new Schema(
             type: String,
             require: true
         },
+        creatorId: {
+            type: String,
+            require: true
+        },
         createTime: {
             type: Date,
             default: Date.now()

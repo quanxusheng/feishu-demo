@@ -7,16 +7,22 @@ import { faker } from '@faker-js/faker'
 
 
 export const login = async function(params: UserLoginParam) {
-    let result:any = await userdb.findOne({email: params.email})
-    console.log('=>result111', result)
+    let userInfo: any = await userdb.findOne({email: params.email}).select('-_id -__v')
+    // console.log('=>result111', userInfo)
 
+    /**
+    `登录 - 是否注册 - 未注册 - 注册用户 - 创建默认sheet然后把用户信息和默认sheet一起返回`
+    `登录 - 是否注册 - 已注册 - 查询用户 - 然后把用户信息和sheet列表一起返回`
+    */
+    let result: any = null
     // 未注册
-    if (!result) {
+    if (!userInfo) {
         result = await register(params)
     } else {
-        
+        // 已注册
+        result = await loginSuccess(userInfo.toObject())
+        console.log('=>result-pppp', result)
     }
-    console.log('=>result111', result)
     
     return new Promise((resolve) => {
         setTimeout(() => {
@@ -35,29 +41,37 @@ async function register(payload: UserLoginParam) {
     const params = { ...payload }
 
     const { uuid } = faker.string
-    const { avatar } = faker.image
+    const { avatar: createAvatar } = faker.image
     params.id = uuid()
-    params.avatar = avatar()
+    params.avatar = createAvatar()
+
     // 注册用户
     let user = await userdb.create(params)
-    let result = null
     // console.log('=>user', user)
-    let sheetData = null
-    if (user) {
-        const {id: userId, username, email, avatar} = user
-        // 创建一个默认sheet
-        sheetData = await findOrCreateDefaultSheet(params)
-        result = {
-            userId,
-            username,
-            email,
-            avatar,
-            sheetData
-        }
-    }
+    const { id: userId, username, email, avatar } = user
+
+    // 创建一个默认sheet
+    let sheetData = await findOrCreateDefaultSheet(params)
     
+    let result = {
+        userId,
+        username,
+        email,
+        avatar,
+        sheetData
+    }
     return result
 }
+
+async function loginSuccess (params: UserLoginParam) {
+    let sheetData = await findOrCreateDefaultSheet(params)
+    return {
+        ...params,
+        sheetData
+    }
+}
+
+
 
 const returnUserAndSheet = async (params: UserLoginParam) => {
     

@@ -3,15 +3,15 @@ import { map } from 'lodash-es'
 import { IconDots, IconPlus } from '@tabler/icons-react'
 import { useCallback, useState, useRef } from 'react'
 
-import useSheets from '../../../../hooks/useSheets'
+import useSheets from '../../../../hooks/useSheet'
 
 
 export default function Navbar() {
     const [showCreateSheetInput, setShowCreateSheetInput] = useState<boolean>(false)
     const inputRef = useRef<HTMLInputElement>()
 
-    const { sheets, sheetsArr, createSheetDispatcher, navigatorToTargetView } = useSheets()
-    // console.log('=>sheets', sheetsArr)
+    const { sheet, sheetArr, createSheetDispatcher, navigatorToTargetView } = useSheets()
+    // console.log('=>sheet', sheetArr)
     // createSheetDispatcher()
     const handleCreateSheet = useCallback(() => {
         setShowCreateSheetInput(true)
@@ -27,8 +27,8 @@ export default function Navbar() {
     const requestCreateSheet = useCallback(() => {
         setShowCreateSheetInput(false)
         createSheetDispatcher(inputRef.current.value)
-        console.log('=>sheets', sheets)
-        console.log('=>sheetsArr', sheetsArr)
+        console.log('=>sheet', sheet)
+        console.log('=>sheetArr', sheetArr)
     }, [createSheetDispatcher])
 
     return (
@@ -37,7 +37,7 @@ export default function Navbar() {
                 {/* list模块 */}
                 <Box className='p-2'>
                     {
-                        map(sheetsArr, item => {
+                        map(sheetArr, item => {
                             return (
                                 <Box
                                     onClick={() => navigatorToTargetView(item.id)}

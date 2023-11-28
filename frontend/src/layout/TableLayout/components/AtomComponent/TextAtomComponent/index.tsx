@@ -1,7 +1,7 @@
 import { Textarea, Input } from "@mantine/core";
 import { WorkInProgressCellType } from "@/pages/Sheet/components/TableView";
 import { useCallback, useEffect, useRef } from "react";
-import useSheets from '@/hooks/useSheets'
+import useSheets from '@/hooks/useSheet'
 
 interface AtomComponentType extends WorkInProgressCellType {
     destroyAtomComponent: VoidFunction
