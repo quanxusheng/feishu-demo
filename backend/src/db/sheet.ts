@@ -43,16 +43,20 @@ const sheetSchema = new Schema(
                         id: {
                             type: String
                         },
-                        name: {
+                        title: {
                             type: String,
                         },
                         type: {
                             type: String
                         },
                         width: {
-                                type: Number,
-                                default: 200
-                            },
+                            type: Number,
+                            default: 200
+                        },
+                        height: {
+                            type: Number,
+                            default: 35
+                        },
                         config: {
                             desc: {
                                 type: String,

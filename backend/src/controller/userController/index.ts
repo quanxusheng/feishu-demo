@@ -1,7 +1,7 @@
 import { UserLoginParam } from './types'
 import userdb from '../../db/user'
 
-import { createDefaultSheet, findOrCreateDefaultSheet } from '../sheetController'
+import { findOrCreateDefaultSheet } from '../sheetController'
 // import { v4 as uuid } from 'uuid'
 import { faker } from '@faker-js/faker'
 
@@ -67,7 +67,8 @@ async function loginSuccess (params: UserLoginParam) {
     let sheetData = await findOrCreateDefaultSheet(params)
     return {
         ...params,
-        sheetData
+        userId: params.id,
+        sheetData: sheetData.toObject()
     }
 }
 

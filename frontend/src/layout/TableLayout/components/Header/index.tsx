@@ -15,6 +15,7 @@ export default function Header() {
     const len = username.length
     const name = len > 2 ? username.slice(len - 2, len) : username
     console.log('=>roomInfo', roomInfo)
+    console.log('=>roomInfo', user)
     // console.log('=>roomInfo.onlineUsers', roomInfo.onlineUsers)
 
     return (

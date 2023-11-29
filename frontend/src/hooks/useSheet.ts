@@ -20,7 +20,7 @@ export default function useSheets() {
     const sheet = 
         useSelector((state: RootState) => state.sheet) ||
         JSON.parse(localStorage.getItem('sheetData'))
-    console.log('=>sheetsheet', sheet)
+    // console.log('=>sheetsheet', sheet)
     const workInProgressRoomInfo = useSelector((state:RootState) => state.workInProgressRoomInfo)
     const sheetArr = useMemo<Array<Table>>(() => {
         return sheet && sheet.tableList
@@ -32,7 +32,7 @@ export default function useSheets() {
     const locationSearch = queryString.parse(location.search)
     // console.log('=>urlParams', urlParams)
     // console.log('=>location', location)
-    console.log('=>location', locationSearch)
+    // console.log('=>location', locationSearch)
 
     const sheetUrlParams = useMemo<{sheetId: string, tableId: string}>(() => {
         return {
@@ -40,11 +40,11 @@ export default function useSheets() {
             tableId: locationSearch.tableId as string,
         }
     }, [urlParams.sheetId, locationSearch.tableId])
-    console.log('=>sheetUrlParams', sheetUrlParams)
+    // console.log('=>sheetUrlParams', sheetUrlParams)
 
     const getCurrentTable = useMemo(() => {
         const table = sheet.tableList.find(item => item.id === sheetUrlParams.tableId)
-        console.log('=table>', table)
+        // console.log('=table>', table)
         return {
             table,
             rows: table.rows,

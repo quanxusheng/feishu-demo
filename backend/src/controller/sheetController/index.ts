@@ -1,5 +1,9 @@
-import { faker } from '@faker-js/faker'
-const { uuid } = faker.string
+import { fakerZH_CN } from '@faker-js/faker'
+const { uuid } = fakerZH_CN.string
+const { cat } = fakerZH_CN.animal
+const { fullName } = fakerZH_CN.person
+const { name } = fakerZH_CN.company
+const { department } = fakerZH_CN.commerce
 
 import { UserLoginParam } from '../userController/types'
 import sheet from '../../db/sheet'
@@ -13,56 +17,105 @@ interface DefaultRows {
         }
     ]
 }
+
 const defaultColumns = [
     {
         id: uuid(),
-        name: '文本',
+        title: '姓名',
         type: 'text',
-        width: 200
     },
     {
         id: uuid(),
-        name: '单选',
+        title: '宠物',
         type: 'selectSingle',
-        width: 200,
         config: {
             options: [
                 {
-                    label: '男',
+                    label: '英国短毛猫',
                     value: '1'
                 },
                 {
-                    label: '女',
-                    value: '0'
+                    label: '中国狸花猫',
+                    value: '2'
+                },
+                {
+                    label: '玄猫',
+                    value: '3'
+                },
+                {
+                    label: '布偶猫',
+                    value: '4'
+                },
+                {
+                    label: '阿比西尼亚猫',
+                    value: '5'
                 },
             ]
         }
     },
 ]
 
-const defaultRows = (): DefaultRows[] => {
-    return defaultColumns.map(column => {
-        const data:DefaultRows = {
-            id: uuid(),
-            columns: [
+// rows = [
+//     {
+//         id: 1,
+//         columns: [
+//             {
+//                 id: 1,
+//                 value: '111'
+//             },
+//             {
+//                 id: 1,
+//                 value: '111'
+//             }
+//         ]
+//     },
+//     {
+//         id: 1,
+//         columns: [
+//             {
+//                 id: 1,
+//                 value: '111'
+//             },
+//             {
+//                 id: 1,
+//                 value: '111'
+//             }
+//         ]
+//     }
+// ]
+
+// default 3列10行
+const defaultRows = () => {
+    const rows = []
+    const len = defaultColumns.length
+    for(let i = 0; i < 10; i++) {
+        const singleRowCols = []
+        for(let j = 0; j < len; j++) {
+            singleRowCols.push(
                 {
-                    id: column.id,
-                    value: ''
-                }
-            ]
+                    id: defaultColumns[j].id,
+                    value: defaultColumns[j].type === 'text' ?
+                        fullName() :
+                        cat()
+                },
+            )
         }
-        return data
-    })
+        rows[i] = {
+            id: uuid(),
+            columns: singleRowCols
+        }
+    }
+    return rows
 }
 
 export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
     const initData = {
         id: uuid(),
-        sheetName: faker.company.name(),
+        sheetName: name(),
         tableList: [
             {
                 id: uuid(),
-                name: faker.commerce.department(),
+                name: department(),
                 rows: defaultRows(),
                 columns: defaultColumns
             }
@@ -80,23 +133,3 @@ export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
     ).select('-_id -__v')
 }
 
-
-export const createDefaultSheet = async (params: UserLoginParam) => {
-    
-    const initData = {
-        id: uuid(),
-        sheetName: faker.company.name(),
-        tableList: [
-            {
-                id: uuid(),
-                name: faker.commerce.department(),
-                rows: defaultRows(),
-                columns: defaultColumns
-            }
-        ],
-        creatorId: params.id,
-        creator: params.username,
-        createTime: Date.now()
-    }
-    return await sheet.create(initData)
-}

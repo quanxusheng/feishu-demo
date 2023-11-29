@@ -54,7 +54,7 @@ const sheetSlice = createSlice({
         updataSheet: (state, action) => {
             console.log('=>updataSheet', action)
             const {path, oi, tableId} = action.payload
-            state[tableId].rows[path[0]][path[1]] = oi
+            // state[tableId].rows[path[0]][path[1]] = oi
             
         }
     }

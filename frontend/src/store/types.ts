@@ -3,9 +3,9 @@
 // 允许创建的column类型
 
 export type ColumnMap = {
-    TEXT: {},
-    SELECT: {
-        options: Array<{label: string; value: string; id: string}>
+    text: {},
+    selectSingle: {
+        options: Array<{label: string; value: string; id?: string}>
     }
 }
 

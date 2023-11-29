@@ -9,8 +9,8 @@ export default function RouteGuard() {
     const location = useLocation()
     useEffect(() => {
         const userId = localStorage.getItem('userId')
-        console.log('=>llll', userId)
-        console.log('=>location.pathname', location.pathname)
+        // console.log('=>llll', userId)
+        // console.log('=>location.pathname', location.pathname)
 
         // if (!userId && location.pathname !== '/login') {
         if (!userId) {

@@ -10,7 +10,8 @@ import { ColumnMap } from '@/store/types'
 
 import getSheet from '@/hooks/useSheet'
 
-import TextAtomComponent from '@/layout/TableLayout/components/AtomComponent/TextAtomComponent'
+import TextAtom from '@/layout/TableLayout/components/AtomComponent/TextAtom'
+import SelectAtom from '@/layout/TableLayout/components/AtomComponent/SelectAtom'
 
 export interface WorkInProgressCellType {
     x: Key,
@@ -19,7 +20,9 @@ export interface WorkInProgressCellType {
     type: keyof ColumnMap,
     width: Key,
     rowId: Key,
-    value: Key
+    value: Key,
+    dblClick?: boolean
+    config?: object
 }
 
 export default function TableView() {
@@ -36,15 +39,35 @@ export default function TableView() {
 
 
     const [workInProgressCell, setWorkInProgressCell] = useState<WorkInProgressCellType | null>(null)
+    const fasterOverlayBorderRef = useRef<HTMLDivElement>()
     const fasterOverlayRef = useRef<HTMLDivElement>()
 
+    let clickTimer = null
 
-    const handleEditCell = useCallback((event: KonvaEventObject<MouseEvent>, cellPayload: WorkInProgressCellType) => {
-        // console.log('=>', event)
+    const clickCell = useCallback((e: KonvaEventObject<MouseEvent>, cellPayload: WorkInProgressCellType) => {
+        clearTimeout(clickTimer)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        clickTimer = setTimeout(() => {
+            console.log('=>', 111)
+            setCell(cellPayload)
+        }, 200)
+    }, [clickTimer])
+
+    const dblClickCell = useCallback((e: KonvaEventObject<MouseEvent>, cellPayload: WorkInProgressCellType) => {
+        clearTimeout(clickTimer)
+        console.log('=>', 222)
+        // console.log('=>', e)
+        setCell(cellPayload)
+    }, [clickTimer])
+
+    function setCell(cellPayload: WorkInProgressCellType) {
         fasterOverlayRef.current.style.left = cellPayload.x + 'px'
         fasterOverlayRef.current.style.top = cellPayload.y + 'px'
         setWorkInProgressCell(cellPayload)
-    }, [])
+    }
+
+
+
     // console.log('=>workInProgressCell', workInProgressCell)
     return (
         <Box>
@@ -65,40 +88,54 @@ export default function TableView() {
                         </Html> */}
                         {
                             map(rows, (row, index) => {
-                                return map(columns, ({ id, type, width, name }) => {
+                                return map(columns, ({ id, type, width, height, title, config }, colIndex) => {
+                                    const rowId = row.id
                                     const colId = id
                                     const rowIndex = Number(index) + 1
-                                    const currntCol = row[colId]
+                                    const currntCol = row.columns.find(col => col.id === colId)
+                                    const colVal = index ? currntCol.value : title
                                     // const { width } = columnsConfig[colId]
-                                    const x = width
-                                    const y = 0
+                                    const x = (Number(colIndex) * width)
+                                    const y = (Number(height) * rowIndex)
                                     return (
                                         <Fragment key={colId}>
                                             <CanvasText
                                                 width={width}
                                                 fontSize={15}
-                                                text={name}
+                                                fontFamily='Calibri'
+                                                text={colVal}
                                                 padding={10}
                                                 wrap="none"
                                                 ellipsis
                                                 x={x + 10}
-                                                y={rowIndex * 30}
+                                                y={y}
                                             />
                                             <Rect
                                                 width={width}
-                                                height={30}
+                                                height={height}
                                                 x={x}
-                                                y={rowIndex * 30}
+                                                y={y}
                                                 stroke='#ddd'
                                                 strokeWidth={1}
-                                                onDblClick={(event) => handleEditCell(event, {
+                                                onClick={(e) => clickCell(e, {
                                                     x,
-                                                    y: rowIndex * 30,
+                                                    y,
                                                     colId,
                                                     type,
                                                     width,
-                                                    rowId: row.id,
-                                                    value: name,
+                                                    rowId,
+                                                    value: colVal,
+                                                })}
+                                                onDblClick={(e) => dblClickCell(e, {
+                                                    x,
+                                                    y,
+                                                    colId,
+                                                    type,
+                                                    width,
+                                                    rowId,
+                                                    value: colVal,
+                                                    dblClick: true,
+                                                    config
                                                 })}
                                             />
                                         </Fragment>
@@ -109,14 +146,27 @@ export default function TableView() {
                     </Layer>
                 </Stage>
 
-                <Box ref={fasterOverlayRef} className='absolute faster-overlay'>
+                <Box ref={fasterOverlayRef} className='absolute faster-overlay'
+                    onClick={() => setWorkInProgressCell({
+                        ...workInProgressCell,
+                        dblClick: true
+                    })}
+                >
                     {
                         workInProgressCell && (
-                            workInProgressCell.type === 'TEXT' &&
-                            <TextAtomComponent
-                                {...workInProgressCell}
-                                destroyAtomComponent={() => setWorkInProgressCell(null)}
-                            />
+                            (
+                                workInProgressCell.type === 'text' &&
+                                <TextAtom
+                                    {...workInProgressCell}
+                                    destroyAtomComponent={() => setWorkInProgressCell(null)}
+                                />
+                            ) || (
+                                workInProgressCell.type === 'selectSingle' &&
+                                <SelectAtom
+                                    {...workInProgressCell}
+                                    destroyAtomComponent={() => setWorkInProgressCell(null)}
+                                />
+                            )
                         )
                     }
                 </Box>

@@ -8,8 +8,8 @@ interface AtomComponentType extends WorkInProgressCellType {
 }
 
 export default function TextAtomComponent(props: AtomComponentType) {
-    // console.log('=>props', props)
-    const { width } = props
+    console.log('=>props', props)
+    const { width, dblClick } = props
 
     const { setCellValue } = useSheets()
     const TextAtomComponentRef = useRef<HTMLInputElement>()
@@ -47,8 +47,9 @@ export default function TextAtomComponent(props: AtomComponentType) {
             size="xs"
             // autoFocus
             onBlur={handleBlur}
-            defaultValue={props.value}
+            defaultValue={!dblClick ? props.value : undefined}
             className="rounded-none"
+            readOnly={!dblClick}
             style={{
                 width,
                 border: '2px solid #336df4',
@@ -58,7 +59,10 @@ export default function TextAtomComponent(props: AtomComponentType) {
             styles={{
                 input: {
                     borderRadius: '0px',
-                    fontSize: '14px'
+                    fontSize: '15px',
+                    paddingLeft: '17px',
+                    paddingBottom: '1px',
+                    fontFamily: 'Calibri'
                 }
             }}
         />
