@@ -8,7 +8,7 @@ export enum ValidMessageType {
     OperationSheet = 'OperationSheet'
 }
 
-export type ValidOperationType = 'addSheet' | 'updataSheet'
+export type ValidOperationType = 'addSheet' | 'updataSheet' | 'updataTable'
 export interface OriginOperationParams<PayloadType = any> {
     oi: string | number | null // operation insert 实际插入的值
     od: string | number | null // operation delete 实际删除的值
@@ -28,9 +28,6 @@ export interface AddSheetOriginPayload extends OriginOperationPayload {
     sheetName: string
 }
 
-export interface AddSheetOperationParams extends OriginOperationParams<AddSheetOriginPayload> {
-    operation: 'addSheet'
-}
 
 export interface OriginRoomParams {
     sheetId: string

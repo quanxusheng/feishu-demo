@@ -69,17 +69,6 @@ const sheetSchema = new Schema(
                         }
                     }
                 ],
-                // columnsConfig: [
-                //     {
-                //         width: {
-                //             type: Number,
-                //             default: 200
-                //         },
-                //         desc: {
-                //             type: String
-                //         }
-                //     }
-                // ]
             }
         ],
         creator: {

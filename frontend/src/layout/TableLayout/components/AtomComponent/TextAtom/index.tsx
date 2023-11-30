@@ -25,17 +25,11 @@ export default function TextAtomComponent(props: AtomComponentType) {
     const handleBlur = useCallback((event) => {
         // console.log('=>失去焦点了',)
         const { rowId, colId } = props
-        // OperationEmiter({
-        //     oi: event.target.value,
-        //     od: props.value,
-        //     path: [rowId, colId],
-        //     operation: 'updataSheet'
-        // })
         setCellValue({
             oi: event.target.value,
             od: props.value,
             path: [rowId, colId],
-            operation: 'updataSheet'
+            operation: 'updataTable'
         })
         props.destroyAtomComponent()
     }, [props, setCellValue])
@@ -47,21 +41,22 @@ export default function TextAtomComponent(props: AtomComponentType) {
             size="xs"
             // autoFocus
             onBlur={handleBlur}
-            defaultValue={!dblClick ? props.value : undefined}
+            defaultValue={props.value}
             className="rounded-none"
             readOnly={!dblClick}
             style={{
                 width,
-                border: '2px solid #336df4',
-                fontSize: '14px',
-                // minHeight: '30px',
+                // fontSize: '14px',
+                // minHeight: '32px',
             }}
             styles={{
                 input: {
                     borderRadius: '0px',
+                    border: 'none',
                     fontSize: '15px',
-                    paddingLeft: '17px',
-                    paddingBottom: '1px',
+                    paddingLeft: '20px',
+
+                    // paddingBottom: '0.5px',
                     fontFamily: 'Calibri'
                 }
             }}

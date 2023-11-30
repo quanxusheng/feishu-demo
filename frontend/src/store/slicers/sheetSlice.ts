@@ -51,13 +51,19 @@ const sheetSlice = createSlice({
             // console.log('=>action', action)
             state[action.payload.id] = action.payload
         },
-        updataSheet: (state, action) => {
-            console.log('=>updataSheet', action)
+        updataTable(state, action) {
+            console.log('=>updataTable-state', state)
+            console.log('=>updataTable-action', action)
             const {path, oi, tableId} = action.payload
+            const table = state.tableList.find(f => f.id === tableId)[0]
+            const row = table.rows.find(r => r.id === path[0])[0]
+            const col = row.find(c => c.id === path[1])[0]
+            col.value = oi
+            // state[tableId]
             // state[tableId].rows[path[0]][path[1]] = oi
             
         }
     }
 })
-export const { getOriginSheetsData, updataSheet, createSheet, applyOriginAddSheet } = sheetSlice.actions
+export const { getOriginSheetsData, updataTable, createSheet, applyOriginAddSheet } = sheetSlice.actions
 export default sheetSlice.reducer

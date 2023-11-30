@@ -4,9 +4,14 @@ import { login as loginActionCreator, modifyUserInfo } from '../store/slicers/us
 import { RootState } from '../store'
 
 export default function useUserWorker() {
-    const user = useSelector((state:RootState) => state.user)
-    console.log('=>useUserWorker', user)
     const dispatch = useDispatch()
+
+    const user = 
+        useSelector((state:RootState) => state.user)?.userId ||
+        JSON.parse(localStorage.getItem('userInfo'))
+
+    // console.log('=>useUserWorker', user)
+    
     const dispatchLogin = useCallback((args) => {
         // const userId = localStorage.getItem('userId')
         // !userId && dispatch(loginActionCreator(args))

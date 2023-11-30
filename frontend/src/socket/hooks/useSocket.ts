@@ -22,7 +22,7 @@ export default function useSocket() {
     const { user } = useUserWorker()
     const { roomInfo, userJoinRoomDispatcher } = useWorkInProgressWorker()
     // console.log('=>roomInfo', roomInfo)
-    const { sheetUrlParams, updataSheetDispather } = useSheets()
+    const { sheetUrlParams, updataTableDispather } = useSheets()
     const { applyOriginAddSheetOperation } = useApplyAddSheet()
 
     const startConnect = () => {
@@ -60,8 +60,8 @@ export default function useSocket() {
             if (type === ValidMessageType.JoinRoom) {
                 joinRoomMessageResolver(params)
             } else if (type === ValidMessageType.Operation) {
-                // dispatch(updataSheet({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
-                updataSheetDispather(params)
+                // dispatch(updataTable({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
+                updataTableDispather(params)
             } else if (type === ValidMessageType.OperationSheet) {
                 applyOriginAddSheetOperation(params)
             }

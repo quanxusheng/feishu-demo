@@ -7,7 +7,7 @@ export default function OperationMessageResolver(socket: Socket, params: OriginO
 
     console.log('=>mmmm', params)
     // socket.join(params.payload.sheetId)
-    console.log('=>rooms', socket.rooms)
+    // console.log('=>rooms', socket.rooms)
     const sheetId = params.payload.sheetId
 
 

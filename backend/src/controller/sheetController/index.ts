@@ -132,4 +132,3 @@ export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
         {new: true, upsert: true}
     ).select('-_id -__v')
 }
-

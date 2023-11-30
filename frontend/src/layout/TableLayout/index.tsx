@@ -6,7 +6,7 @@ import useSocket from '../../socket/hooks/useSocket'
 
 import { modifyUserInfo } from '../../store/slicers/userSlice'
 import { RootState, store } from '../../store'
-import useUserWorker from '../../hooks/useUserWorker';
+// import useUserWorker from '../../hooks/useUserWorker';
 
 import Header from './components/Header'
 import Navbar from './components/Navbar'
