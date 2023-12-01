@@ -32,15 +32,16 @@ export default function Login() {
     const handleLogin = async () => {
         axios.post('/login', mForm.values)
             .then(res => {
-                console.log('=>', res)
+                // console.log('=>', res)
                 const { code, data } = res.data
                 if (code === 200) {
                     dispatchLogin(data)
 
                     const tempData = data.sheetData
                     getOriginSheetsDataDispatcher(tempData)
-                    console.log('=>data-tempData', data)
-                    console.log('=>tempData', tempData)
+                    localStorage.setItem('sheetData', JSON.stringify(tempData))
+                    // console.log('=>data-tempData', data)
+                    // console.log('=>tempData', tempData)
                     const sheetId = tempData.id
                     const tabData = tempData.tableList[0]
                     to(`/base/${sheetId}?tableId=${tabData.id}`)

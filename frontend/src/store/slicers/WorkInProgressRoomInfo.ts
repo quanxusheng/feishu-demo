@@ -62,7 +62,7 @@ const roomSlicer = createSlice({
             // }
             // const temp = new Set(state.onlineUsers)
             // temp.add(action.payload)
-            state.onlineUsers = [...action.payload.online_user_list]
+            // state.onlineUsers = [...action.payload.online_user_list]
         },
         updateRoomVersion: (state, action) => {
             state.roomVersion = action.payload

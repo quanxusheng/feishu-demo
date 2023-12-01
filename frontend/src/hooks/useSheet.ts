@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import {useCallback, useMemo, Key} from 'react'
+import {useCallback, useMemo, useEffect} from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 
@@ -13,22 +13,48 @@ import { updateRoomVersion } from '@/store/slicers/WorkInProgressRoomInfo'
 
 import { OriginOperationParams} from '@/socket/types'
 
+import useUrlParams from './useUrlParams'
+
 
 
 
 export default function useSheets() {
     const dispatch = useDispatch()
     const to = useNavigate()
-    const urlParams = useParams()
-    const location = useLocation()
-    const locationSearch = queryString.parse(location.search)
+    const {sheetUrlParams} = useUrlParams()
+    // const urlParams = useParams()
+    // const location = useLocation()
+    // const locationSearch = queryString.parse(location.search)
 
-    let sheet = useSelector((state: RootState) => state.sheet)
-    if (!sheet) {
-        sheet = JSON.parse(localStorage.getItem('sheetData'))
-        dispatch(getOriginSheetsData(sheet))
-    }
+    // let sheet = useSelector((state: RootState) => state.sheet)
+    let sheetState = useSelector((state: RootState) => state.sheet)
+
+    const sheet = useMemo(() => {
+        if (!sheetState || !sheetState.id) {
+            const data = JSON.parse(localStorage.getItem('sheetData') || null)
+            console.log('=>2222222222', data)
+            dispatch(getOriginSheetsData(data))
+            return data
+        }
+    }, [dispatch, sheetState])
+
     console.log('=9999>', sheet)
+
+    // useEffect(() => {
+    // console.log('=8888>', sheet)
+    // if (!sheet) {
+    //     sheet = JSON.parse(localStorage.getItem('sheetData'))
+    //     dispatch(getOriginSheetsData(sheet))
+    // }
+    // console.log('=9999>', sheet)
+    // }, [dispatch])
+    // let sheet = useSelector((state: RootState) => state.sheet)
+    // console.log('=8888>', sheet)
+    // if (!sheet) {
+    //     sheet = JSON.parse(localStorage.getItem('sheetData'))
+    //     dispatch(getOriginSheetsData(sheet))
+    // }
+    // console.log('=9999>', sheet)
         // useSelector((state: RootState) => state.sheet) ||
         // JSON.parse(localStorage.getItem('sheetData'))
     // console.log('=>sheetsheet', sheet)
@@ -40,12 +66,12 @@ export default function useSheets() {
     // console.log('=>location', location)
     // console.log('=>location', locationSearch)
 
-    const sheetUrlParams = useMemo<{sheetId: string, tableId: string}>(() => {
-        return {
-            sheetId: urlParams.sheetId,
-            tableId: locationSearch.tableId as string,
-        }
-    }, [urlParams.sheetId, locationSearch.tableId])
+    // const sheetUrlParams = useMemo<{sheetId: string, tableId: string}>(() => {
+    //     return {
+    //         sheetId: urlParams.sheetId,
+    //         tableId: locationSearch.tableId as string,
+    //     }
+    // }, [urlParams.sheetId, locationSearch.tableId])
     // console.log('=>sheetUrlParams', sheetUrlParams)
 
     const getCurrentTable = useMemo(() => {
@@ -78,11 +104,13 @@ export default function useSheets() {
         // }
     }, [])
 
-    const navigatorToTargetView = useCallback((tableId: Key) => {
+    const navigatorToTargetView = useCallback((tableId: string) => {
         // console.log('=>tableId', tableId)
         // if (!tableId) {
         //     const firstView = getTargetSheetViewsArr(tableId)[0]
-        //     tableId = firstView.id
+        //     tableId = firstView.idChatGPT
+        
+        
         // }
         // to(`/base/${sheetId}/?table=${tabData.id}`)
     }, [])
@@ -98,14 +126,17 @@ export default function useSheets() {
     },[dispatch, sheetUrlParams.sheetId, workInProgressRoomInfo.roomVersion])
 
 
-    const getOriginSheetsDataDispatcher = useCallback((data) => {
-        dispatch(getOriginSheetsData(data))
-    }, [dispatch])
+    // const getOriginSheetsDataDispatcher = useCallback((data) => {
+    //     dispatch(getOriginSheetsData(data))
+    // }, [dispatch])
 
-    const updataTableDispather = useCallback((payload) => {
-        // console.log('=>payload', payload)
-        dispatch(updataTable({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
-    }, [dispatch, sheetUrlParams])
+    // const updataTableDispather = useCallback((payload) => {
+    //     // console.log('=>updataTableDispather-sheet', sheet)
+    //     // console.log('=>updataTableDispather-payload', payload)
+    //     const data = {...payload, ...sheetUrlParams }
+    //     console.log('=>updataTableDispather-uuuuu', data)
+    //     dispatch(updataTable(data))
+    // }, [dispatch, sheetUrlParams])
 
     const setCellValue = useCallback((params:OriginOperationParams) => {
         OperationEmiter({
@@ -123,13 +154,13 @@ export default function useSheets() {
         
         getTargetViewColumns,
         createSheetDispatcher,
-        updataTableDispather,
+        // updataTableDispather,
         navigatorToTargetView,
         setCellValue,
 
-        getOriginSheetsDataDispatcher,
+        // getOriginSheetsDataDispatcher,
         getCurrentTable,
         sheetArr,
-        sheetUrlParams,
+        // sheetUrlParams,
     }
 }

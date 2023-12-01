@@ -17,7 +17,8 @@ export interface WorkInProgressCellType {
     x: number
     y: number
     colId: string
-    type: keyof ColumnMap
+    // type: keyof ColumnMap
+    type: string
     width: number
     rowId: string
     value: string
@@ -26,7 +27,7 @@ export interface WorkInProgressCellType {
 }
 
 export default function TableView() {
-    const { sheetUrlParams, getCurrentTable, getTargetViewColumns } = getSheet()
+    const { getCurrentTable, getTargetViewColumns } = getSheet()
 
     // const viewsArr = getTargetSheetViewsArr(sheetUrlParams.tableId)
     // console.log('=viewsArr>', viewsArr)

@@ -9,20 +9,23 @@ import { OperationSheet } from '@/socket/messageEmiter'
 import {pushToRetentionOperations} from '@/socket/socketQueue'
 
 
-const initialState: Sheet|null = null
-// const initialState: Sheet = {
-//     id: '',
-//     name: '',
-//     tableList: null
-// }
+// const initialState: Sheet|null = null
+const initialState: Sheet = {
+    id: '',
+    name: '',
+    tableList: []
+}
 
 const sheetSlice = createSlice({
     name: 'sheet',
     initialState,
     reducers: {
-        getOriginSheetsData(state, { payload }) {
-            Object.assign({}, state, payload)
-            localStorage.setItem('sheetData', JSON.stringify(payload))
+        getOriginSheetsData(state, {payload}) {
+            // console.log(`%c =>getOriginSheetsData-state=> ${state}`, 'color: green')
+            console.log('=>getOriginSheetsData-state', state)
+            console.log('=>0000', payload)
+            // Object.assign({}, state, payload)
+            state = {...payload}
         },
         createSheet: (state, action) => {
             // const sheet = sheetTemplateCreator(action.payload.name || '数据表')
@@ -47,18 +50,24 @@ const sheetSlice = createSlice({
             // })
         },
         applyOriginAddSheet(state, action) {
-            // console.log('=>state', state)
-            // console.log('=>action', action)
+            console.log('=>state5555555555555', state)
+            console.log('=>action5555555555', action)
             state[action.payload.id] = action.payload
         },
         updataTable(state, action) {
             console.log('=>updataTable-state', state)
+            console.log('=>updataTable-state.tableList', state.tableList)
             console.log('=>updataTable-action', action)
+            // state.tableList = action.payload.tableList
             const {path, oi, tableId} = action.payload
-            const table = state.tableList.find(f => f.id === tableId)[0]
-            const row = table.rows.find(r => r.id === path[0])[0]
-            const col = row.find(c => c.id === path[1])[0]
+            const table = state.tableList.find(f => f.id === tableId)
+            console.log('=>table', table)
+            const row = table.rows.find(r => r.id === path[0])
+            console.log('=>row', row)
+            const col = row.columns.find(c => c.id === path[1])
+            console.log('=>col', col)
             col.value = oi
+            console.log('=>Changed-updataTable', state)
             // state[tableId]
             // state[tableId].rows[path[0]][path[1]] = oi
             

@@ -6,9 +6,9 @@ import { RootState } from '../store'
 export default function useUserWorker() {
     const dispatch = useDispatch()
 
-    const user = 
-        useSelector((state:RootState) => state.user)?.userId ||
-        JSON.parse(localStorage.getItem('userInfo'))
+    let user = useSelector((state:RootState) => state.user)
+    user = user.userId ? user : JSON.parse(localStorage.getItem('userInfo'))
+        
 
     // console.log('=>useUserWorker', user)
     

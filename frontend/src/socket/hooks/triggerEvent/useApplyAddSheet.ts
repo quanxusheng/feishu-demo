@@ -1,19 +1,34 @@
 // import {sheetTemplateCreator} from '@/store/utils'
+import {useCallback} from 'react'
 
 import { AddSheetParams } from '@/socket/types'
 
-import {applyOriginAddSheet} from '@/store/slicers/sheetSlice'
+import { applyOriginAddSheet, updataTable } from '@/store/slicers/sheetSlice'
 
 import { useDispatch } from 'react-redux'
+
+import useUrlParams from '@/hooks/useUrlParams'
+
+
 export default function useApplyAddSheet(){
     // const sheet = sheetTemplateCreator(params.sheetName, params)
     const dispatch = useDispatch()
+    const {sheetUrlParams} = useUrlParams()
 
-    const applyOriginAddSheetOperation = (params:AddSheetParams) => {
+    const applyOriginAddSheetOperation = useCallback((params:AddSheetParams) => {
         dispatch(applyOriginAddSheet(params))
-    }
+    }, [dispatch])
+
+    const updataTableDispather = useCallback((payload) => {
+        // console.log('=>updataTableDispather-sheet', sheet)
+        // console.log('=>updataTableDispather-payload', payload)
+        const data = {...payload, ...sheetUrlParams }
+        console.log('=>updataTableDispather-uuuuu', data)
+        dispatch(updataTable(data))
+    }, [dispatch, sheetUrlParams])
 
     return {
-        applyOriginAddSheetOperation
+        applyOriginAddSheetOperation,
+        updataTableDispather
     }
 }

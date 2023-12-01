@@ -3,28 +3,33 @@ import { useEffect } from 'react'
 import { MantineProvider } from '@mantine/core'
 import useTheme from './layout/TableLayout/components/Header/components/UserCenterDropdown/Hooks/useTheme'
 
+import useUserWork from '@/hooks/useUserWorker'
+
 export default function RouteGuard() {
     const { realtimeTheme } = useTheme()
     const navigate = useNavigate()
     const location = useLocation()
-    useEffect(() => {
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-        const { userId, sheetData } = userInfo
-        // console.log('=>location.pathname', location)
-        // console.log('=>location.pathname', location.pathname)
+    const { user } = useUserWork()
+    // console.log('=>userWork', user)
 
-        // if (!userId && location.pathname !== '/login') {
-        if (!userId) {
+    const localUserId = localStorage.getItem('userId')
+
+    useEffect(() => {
+        // console.log('=>location.pathname', location)
+        // const localUserId = localStorage.getItem('userId')
+        if (!user || !user.userId || !localUserId) {
             if (location.pathname !== '/login') {
                 navigate('/login')
             }
         }
-        else {
-            if (!location.pathname.startsWith('/base')) {
-                navigate(`/base/${sheetData.id}?tableId=${sheetData.tableList[0].id}`)
-            }
+        else if (!location.pathname.startsWith('/base')) {
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            const { sheetData } = userInfo
+
+            console.log('=>userInfo', userInfo)
+            navigate(`/base/${sheetData.id}?tableId=${sheetData.tableList[0].id}`)
         }
-    }, [location, navigate])
+    }, [localUserId, location, navigate, user])
 
     return (
         <>

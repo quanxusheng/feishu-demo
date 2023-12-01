@@ -8,7 +8,7 @@ import { JoinRoomEmiter, OperationEmiter } from '../messageEmiter';
 
 import useUserWorker from '@/hooks/useUserWorker';
 
-import useSheets from '@/hooks/useSheet';
+import useUrlParams from '@/hooks/useUrlParams';
 
 import useWorkInProgressWorker from '@/hooks/useWorkInProgressRoomWorker'
 
@@ -22,8 +22,9 @@ export default function useSocket() {
     const { user } = useUserWorker()
     const { roomInfo, userJoinRoomDispatcher } = useWorkInProgressWorker()
     // console.log('=>roomInfo', roomInfo)
-    const { sheetUrlParams, updataTableDispather } = useSheets()
-    const { applyOriginAddSheetOperation } = useApplyAddSheet()
+    // const { updataTableDispather } = useSheets()
+    const { sheetUrlParams } = useUrlParams()
+    const { applyOriginAddSheetOperation, updataTableDispather } = useApplyAddSheet()
 
     const startConnect = () => {
         try {
@@ -60,7 +61,6 @@ export default function useSocket() {
             if (type === ValidMessageType.JoinRoom) {
                 joinRoomMessageResolver(params)
             } else if (type === ValidMessageType.Operation) {
-                // dispatch(updataTable({...omit(payload, 'destroyAtomComponent'), ...sheetUrlParams}))
                 updataTableDispather(params)
             } else if (type === ValidMessageType.OperationSheet) {
                 applyOriginAddSheetOperation(params)
