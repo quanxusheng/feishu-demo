@@ -111,7 +111,7 @@ const defaultRows = () => {
 export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
     const initData = {
         id: uuid(),
-        sheetName: name(),
+        name: name(),
         tableList: [
             {
                 id: uuid(),
@@ -124,6 +124,7 @@ export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
         creator: params.username,
         createTime: Date.now()
     }
+    console.log('=>findOrCreateDefaultSheet-initData', initData)
     return await sheet.findOneAndUpdate(
         {
             creatorId: params.id

@@ -28,13 +28,16 @@ export default function useSheets() {
 
     // let sheet = useSelector((state: RootState) => state.sheet)
     let sheetState = useSelector((state: RootState) => state.sheet)
+    // console.log('=>useSheets-table更新了', sheetState)
 
     const sheet = useMemo(() => {
         if (!sheetState || !sheetState.id) {
             const data = JSON.parse(localStorage.getItem('sheetData') || null)
-            console.log('=>2222222222', data)
+            // console.log('=>2222222222', data)
             dispatch(getOriginSheetsData(data))
             return data
+        } else {
+            return sheetState
         }
     }, [dispatch, sheetState])
 
@@ -116,9 +119,9 @@ export default function useSheets() {
     }, [])
 
     
-    const createSheetDispatcher = useCallback((sheetName?: string) => {
+    const createSheetDispatcher = useCallback((name?: string) => {
         dispatch(createSheet({
-            name: sheetName,
+            name,
             sheetId: sheetUrlParams.sheetId,
             roomVersion: workInProgressRoomInfo.roomVersion + 1
         }))

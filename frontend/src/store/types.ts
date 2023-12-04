@@ -56,6 +56,9 @@ export interface Table {
 export interface Sheet {
     id: string
     name: string
+    creatorId: string
+    creator: string
+    createTime: string
     tableList: Table[]
 
     // columns: {

@@ -26,7 +26,7 @@ export interface OriginOperationPayload {
 export interface AddSheetOriginPayload extends OriginOperationPayload {
     viewId: string
     columnId: string
-    sheetName: string
+    name: string
 }
 
 export interface AddSheetOperationParams extends OriginOperationParams<AddSheetOriginPayload> {

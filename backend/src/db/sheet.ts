@@ -7,7 +7,7 @@ const sheetSchema = new Schema(
             require: true,
             unique: true,
         },
-        sheetName: {
+        name: {
             type: String,
             require: true,
             unique: true

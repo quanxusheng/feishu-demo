@@ -21,7 +21,7 @@ export const login = async function(params: UserLoginParam) {
     } else {
         // 已注册
         result = await loginSuccess(userInfo.toObject())
-        console.log('=>result-pppp', result)
+        // console.log('=>result-pppp', result)
     }
     
     return new Promise((resolve) => {
@@ -47,12 +47,12 @@ async function register(payload: UserLoginParam) {
 
     // 注册用户
     let user = await userdb.create(params)
-    // console.log('=>user', user)
-    const { id: userId, username, email, avatar } = user
+    console.log('=>user', user)
 
     // 创建一个默认sheet
     let sheetData = await findOrCreateDefaultSheet(params)
-    
+
+    const { id: userId, username, email, avatar } = user
     let result = {
         userId,
         username,
@@ -64,6 +64,7 @@ async function register(payload: UserLoginParam) {
 }
 
 async function loginSuccess (params: UserLoginParam) {
+    console.log('=>loginSuccess-params', params)
     let sheetData = await findOrCreateDefaultSheet(params)
     return {
         ...params,
@@ -72,8 +73,3 @@ async function loginSuccess (params: UserLoginParam) {
     }
 }
 
-
-
-const returnUserAndSheet = async (params: UserLoginParam) => {
-    
-}

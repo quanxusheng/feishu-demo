@@ -11,7 +11,7 @@ import useUrlParams from '@/hooks/useUrlParams'
 
 
 export default function useApplyAddSheet(){
-    // const sheet = sheetTemplateCreator(params.sheetName, params)
+    // const sheet = sheetTemplateCreator(params.name, params)
     const dispatch = useDispatch()
     const {sheetUrlParams} = useUrlParams()
 

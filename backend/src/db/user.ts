@@ -6,8 +6,8 @@ const user = new Schema(
         id: {
             type: String,
             require: true,
-            unique: true,
-            index: true
+            // unique: true,
+            // index: true
         },
         username: {
             type: String,
@@ -38,6 +38,6 @@ const user = new Schema(
         strict: false,
      }
 )
-user.index({id: 1, username: 1, email: 1}, {unique: true})
+user.index({username: 1, email: 1}, {unique: true})
 
 export default model('user', user)
