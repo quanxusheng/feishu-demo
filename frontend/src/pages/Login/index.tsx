@@ -35,8 +35,12 @@ export default function Login() {
                 // console.log('=>', res)
                 const { code, data } = res.data
                 if (code === 200) {
+                    // 存储user
                     dispatchLogin(data)
+                    localStorage.setItem('userId', data.userId)
+                    localStorage.setItem('userInfo', JSON.stringify(data))
 
+                    // 存储sheetData
                     const tempData = data.sheetData
                     getOriginSheetsDataDispatcher(tempData)
                     localStorage.setItem('sheetData', JSON.stringify(tempData))

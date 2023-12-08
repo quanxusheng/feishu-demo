@@ -36,9 +36,8 @@ export default function useSheets() {
             // console.log('=>2222222222', data)
             dispatch(getOriginSheetsData(data))
             return data
-        } else {
-            return sheetState
         }
+        return sheetState
     }, [dispatch, sheetState])
 
     console.log('=9999>', sheet)

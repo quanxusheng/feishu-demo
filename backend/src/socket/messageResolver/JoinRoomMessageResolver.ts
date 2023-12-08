@@ -2,25 +2,34 @@ import { Socket } from "socket.io";
 import { JoinRoomParams, ValidMessageType } from "../type";
 import onlineUserSchema from '../../db/onlineUser'
 
-// const init = async (params:JoinRoomParams) => {
-//     // const {sheetId, userId, username, avatar} = params
-//     // const result = await onlineUserSchema.find()
-//     // console.log('=>result', result)
-//     // const temp = result && result.filter(f => f.userId === userId)
+const getOnlineUserList = async (params:JoinRoomParams) => {
+    const {sheetId, userId, username, avatar} = params
 
-//     // if (!result) {
-//     //     const a = await onlineUserSchema.create(params)
-//     //     console.log('=>a', a)
-//     // }
-//     return await onlineUserSchema.create(params)
-//     // return await onlineUserSchema.find()
-// }
+    const queryParams = {
+        userId,
+        username,
+        avatar
+    }
 
-// const online_user_list:any = {}
+    const result = await onlineUserSchema.findOneAndUpdate({id: userId}, queryParams, {upsert: true, new: true})
+    console.log('=>getOnlineUserList-result', result)
+
+    // const result = await onlineUserSchema.find()
+    // console.log('=>result', result)
+    // const temp = result && result.filter(f => f.userId === userId)
+
+    // if (!result) {
+    //     const a = await onlineUserSchema.create(params)
+    //     console.log('=>a', a)
+    // }
+    // return await onlineUserSchema.create(params)
+    // return await onlineUserSchema.find()
+}
+
 
 export default async function JoinRoomMessageResolver(socket: Socket, params: JoinRoomParams){
-    // const online_user_list = null
-    // const online_user_list = await init(params)
+    console.log('=>JoinRoomMessageResolver-params', params)
+    const online_user_list: any = await getOnlineUserList(params)
     // console.log('=>online_user_list', online_user_list)
     // console.log('=>8888', params)
     const {sheetId, userId, username, avatar} = params
