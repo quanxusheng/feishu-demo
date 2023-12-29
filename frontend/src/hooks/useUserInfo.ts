@@ -9,21 +9,31 @@ export default function useUserInfo() {
     const dispatch = useDispatch()
     const to = useNavigate()
     const user = useSelector((state:RootState) => state.user)
-    console.log('=>useUserInfo-user0000000000000000', user)
-    useEffect(() => {
-        console.log('=>useUserInfo-user0000111111111', user)
-        if (!user || !user.userId) {
-            const tempData = JSON.parse(localStorage.getItem('userInfo') || null)
-            console.log('=>useUserInfo-tempData', tempData)
-            if (tempData && tempData.userId) {
-                dispatch(login(tempData))
-                return tempData
-            } else {
-                to('/login')
-            }
-        }
+    console.log('=>PPPpPPP', user)
+    // if (!user || !user.userId) {
+    //     const tempData = JSON.parse(localStorage.getItem('userInfo') || null)
+    //     console.log('=>useUserInfo-tempData', tempData)
+    //     if (tempData && tempData.userId) {
+    //         dispatch(login(tempData))
+    //         return tempData
+    //     } else {
+    //         to('/login')
+    //     }
+    // }
+    // useEffect(() => {
+    //     console.log('=>useUserInfo-user0000111111111', user)
+    //     if (!user || !user.userId) {
+    //         const tempData = JSON.parse(localStorage.getItem('userInfo') || null)
+    //         console.log('=>useUserInfo-tempData', tempData)
+    //         if (tempData && tempData.userId) {
+    //             dispatch(login(tempData))
+    //             return tempData
+    //         } else {
+    //             to('/login')
+    //         }
+    //     }
        
-    }, [dispatch, to, user, user.userId])
+    // }, [dispatch, to, user])
      return {
         user
     }

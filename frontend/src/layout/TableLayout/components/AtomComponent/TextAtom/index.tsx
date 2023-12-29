@@ -24,10 +24,10 @@ export default function TextAtomComponent(props: AtomComponentType) {
 
     const handleBlur = useCallback((event) => {
         // console.log('=>失去焦点了',)
-        const { rowId, colId } = props
+        const { rowId, colId, value } = props
         setCellValue({
             oi: event.target.value,
-            od: props.value,
+            od: value,
             path: [rowId, colId],
             operation: 'updataTable'
         })

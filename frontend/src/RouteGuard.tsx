@@ -4,36 +4,42 @@ import { MantineProvider } from '@mantine/core'
 import useTheme from './layout/TableLayout/components/Header/components/UserCenterDropdown/Hooks/useTheme'
 
 // import useUserWork from '@/hooks/useUserWorker'
-import useUserInfo from './hooks/useUserInfo'
+// import useUserInfo from './hooks/useUserInfo'
+
+// import useSheet from '@/hooks/useSheet'
 
 export default function RouteGuard() {
     const { realtimeTheme } = useTheme()
     const navigate = useNavigate()
     const location = useLocation()
-    const { user } = useUserInfo()
-    console.log('=>99999999999999999', user)
+    // const { user } = useUserInfo()
+    // const { navigatorToTargetView } = useSheet()
 
-    // const localUserId = localStorage.getItem('userId')
-    console.log(111)
+    const localUserId = localStorage.getItem('userId')
+    console.log('=>localUserId', localUserId)
 
     useEffect(() => {
-        console.log(2222)
-        // console.log('=>location.pathname', location)
-        // const localUserId = localStorage.getItem('userId')
-        // if (!user || !user.userId || !localUserId) {
-        //     if (location.pathname !== '/login') {
-        //         navigate('/login')
-        //     }
-        // }
-        // else
-        if (location.pathname.startsWith('/base')) {
-            const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-            const { sheetData } = userInfo
-
-            console.log('=>userInfo', userInfo)
-            navigate(`/base/${sheetData.id}?tableId=${sheetData.tableList[0].id}`)
+        console.log('=>localUserId2222222', localUserId)
+        if (!localUserId) {
+            console.log('=>navigate', localUserId)
+            navigate('/login')
+            // return
         }
-    }, [location, navigate, user])
+    }, [localUserId, navigate])
+    // useEffect(() => {
+    //     console.log('=>location.pathname', location)
+    //     if (location.pathname.startsWith('/base')) {
+    //         const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    //         const { sheetData } = userInfo
+
+    //         console.log('=>sheetData111', sheetData)
+    //         console.log('=>userInfo', userInfo)
+    //         navigate(`/base/${sheetData.id}?tableId=${sheetData.tableList[0].id}`)
+    //     }
+    // }, [location, navigate])
+    if (location.pathname.startsWith('/base')) {
+        // navigatorToTargetView()
+    }
 
     return (
         <>

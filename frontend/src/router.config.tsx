@@ -14,12 +14,14 @@ const routes = createBrowserRouter([
                 path: '/base/:sheetId',
                 element: <Sheet />
             },
-            {
-                path: '/login',
-                element: <Login />
-            }
+
         ]
+    },
+    {
+        path: '/login',
+        element: <Login />
     }
+
 ])
 
 export default routes

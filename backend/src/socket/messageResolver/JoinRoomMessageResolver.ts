@@ -3,6 +3,7 @@ import { JoinRoomParams, ValidMessageType } from "../type";
 import onlineUserSchema from '../../db/onlineUser'
 
 const getOnlineUserList = async (params:JoinRoomParams) => {
+    console.log('=>getOnlineUserList', params)
     const {sheetId, userId, username, avatar} = params
 
     const queryParams = {

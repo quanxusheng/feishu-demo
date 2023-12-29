@@ -12,7 +12,6 @@ export default function OperationMessageResolver(socket: Socket, params: OriginO
 
 
     socket.emit('message', {
-    // socket.to(sheetId).emit('message', {
         type: ValidMessageType.Operation,
         params
     })

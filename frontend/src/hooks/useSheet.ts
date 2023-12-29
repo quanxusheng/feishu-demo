@@ -40,7 +40,7 @@ export default function useSheets() {
         return sheetState
     }, [dispatch, sheetState])
 
-    console.log('=9999>', sheet)
+    // console.log('=9999>', sheet)
 
     // useEffect(() => {
     // console.log('=8888>', sheet)
@@ -77,8 +77,8 @@ export default function useSheets() {
     // console.log('=>sheetUrlParams', sheetUrlParams)
 
     const getCurrentTable = useMemo(() => {
+        // if (!sheetUrlParams.tableId) return
         const table = sheet.tableList.find(item => item.id === sheetUrlParams.tableId)
-        // console.log('=table>', table)
         return {
             table,
             rows: table.rows,
@@ -106,16 +106,24 @@ export default function useSheets() {
         // }
     }, [])
 
-    const navigatorToTargetView = useCallback((tableId: string) => {
-        // console.log('=>tableId', tableId)
-        // if (!tableId) {
-        //     const firstView = getTargetSheetViewsArr(tableId)[0]
-        //     tableId = firstView.idChatGPT
-        
-        
+    const navigatorToTargetView = useCallback((id) => {
+        // const { sheetId, tableId } = sheetUrlParams
+        // const {id , tableList} = sheet
+        // let tempTableId;
+        // if (sheetId) {
+        //     if (sheetId === id) {
+        //         if (tableId) {
+        //            tempTableId = tableId
+        //         } else {
+        //             tempTableId = tableList[0].id
+        //         }
+        //     } else {
+        //         localStorage.clear()
+        //         to('/login')
+        //     }
         // }
-        // to(`/base/${sheetId}/?table=${tabData.id}`)
-    }, [])
+        //  to(`/base/${sheetId}?tableId=${tempTableId}`)
+    },[sheetUrlParams, sheet, to])
 
     
     const createSheetDispatcher = useCallback((name?: string) => {
@@ -157,12 +165,14 @@ export default function useSheets() {
         getTargetViewColumns,
         createSheetDispatcher,
         // updataTableDispather,
-        navigatorToTargetView,
+        // navigatorToTargetView,
         setCellValue,
 
         // getOriginSheetsDataDispatcher,
         getCurrentTable,
         sheetArr,
         // sheetUrlParams,
+
+        navigatorToTargetView,
     }
 }

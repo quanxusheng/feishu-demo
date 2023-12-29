@@ -32,7 +32,7 @@ export default function Login() {
     const handleLogin = async () => {
         axios.post('/login', mForm.values)
             .then(res => {
-                // console.log('=>', res)
+                console.log('=>', res)
                 const { code, data } = res.data
                 if (code === 200) {
                     // 存储user

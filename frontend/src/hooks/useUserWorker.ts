@@ -9,7 +9,7 @@ export default function useUserWorker() {
     const to = useNavigate()
 
     let userState = useSelector((state:RootState) => state.user)
-    console.log('=>userState444', userState)
+    // console.log('=>userState444', userState)
 
     const user = useMemo(() => {
         const localUserInfo = JSON.parse(localStorage.getItem('userInfo')) || null
@@ -21,7 +21,7 @@ export default function useUserWorker() {
     }, [dispatch, userState])
         
 
-    console.log('=>useUserWorker333', user)
+    // console.log('=>useUserWorker333', user)
 
     // useEffect(() => {
     //     alert(1)
