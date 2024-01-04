@@ -16,10 +16,10 @@ export default function RouteGuard() {
     // const { navigatorToTargetView } = useSheet()
 
     const localUserId = localStorage.getItem('userId')
-    console.log('=>localUserId', localUserId)
+    // console.log('=>localUserId', localUserId)
 
     useEffect(() => {
-        console.log('=>localUserId2222222', localUserId)
+        // console.log('=>localUserId2222222', localUserId)
         if (!localUserId) {
             console.log('=>navigate', localUserId)
             navigate('/login')

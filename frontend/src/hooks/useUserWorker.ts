@@ -37,6 +37,7 @@ export default function useUserWorker() {
 
         dispatch(loginActionCreator(args))
     }, [dispatch])
+    
     const modify = (args) => {
         dispatch(modifyUserInfo(args))
     }

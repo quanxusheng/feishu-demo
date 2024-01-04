@@ -26,32 +26,18 @@ export default function useSocket() {
     const { sheetUrlParams } = useUrlParams()
     const { applyOriginAddSheetOperation, updataTableDispather } = useApplyAddSheet()
 
-    const startConnect = () => {
-        try {
-            socket.connect()
-
-            // 1.触发joinRoom事件
-            // 2.监听服务端的推送
-            // 3.开启滞留operation队列
-            JoinRoomEmiter({ ...user, sheetId: sheetUrlParams.sheetId })
-            watchSocketEvents()
-            enableSocketQueue()
-
-        } catch (error) {
-            console.log('=>startConnect', error)
-        }
-    }
+    
 
 
-    const joinRoomMessageResolver = (message: JoinRoomParams) => {
+    const joinRoomMessageResolver = useCallback((message: JoinRoomParams) => {
         userJoinRoomDispatcher(message)
-    }
-
+    },[userJoinRoomDispatcher]
+)
     // const applyOriginAddSheet = (params) => {
     //     useApplyAddSheet(params)
     // }
 
-    const watchSocketEvents = () => {
+    const watchSocketEvents = useCallback(() => {
         socket.on('message', (incommingMessage: ValidMessage) => {
             console.log('=>客户端接收到了', incommingMessage)
             const { type, params } = incommingMessage
@@ -69,14 +55,30 @@ export default function useSocket() {
         socket.on("disconnect", (reason) => {
             // console.log('=>disconnect', reason)
         });
-    }
+    },[applyOriginAddSheetOperation, joinRoomMessageResolver, updataTableDispather])
 
+    const startConnect = useCallback(() => {
+        try {
+            socket.connect()
+
+            // 1.触发joinRoom事件
+            // 2.监听服务端的推送
+            // 3.开启滞留operation队列
+            JoinRoomEmiter({ ...user, sheetId: sheetUrlParams.sheetId })
+            watchSocketEvents()
+            enableSocketQueue()
+
+        } catch (error) {
+            console.log('=>startConnect', error)
+        }
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    }, [user, sheetUrlParams.sheetId, watchSocketEvents])
 
     useEffect(() => {
         // console.log('=>111', socket)
         if (socket.connected) return
         startConnect()
-    })
+    }, [startConnect])
 
     return {
     }

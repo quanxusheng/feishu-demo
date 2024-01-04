@@ -3,7 +3,7 @@ const { uuid } = fakerZH_CN.string
 const { cat } = fakerZH_CN.animal
 const { fullName } = fakerZH_CN.person
 const { name } = fakerZH_CN.company
-const { department } = fakerZH_CN.commerce
+const { flightNumber } = fakerZH_CN.airline
 
 import { UserLoginParam } from '../userController/types'
 import sheet from '../../db/sheet'
@@ -55,34 +55,6 @@ const defaultColumns = [
     },
 ]
 
-// rows = [
-//     {
-//         id: 1,
-//         columns: [
-//             {
-//                 id: 1,
-//                 value: '111'
-//             },
-//             {
-//                 id: 1,
-//                 value: '111'
-//             }
-//         ]
-//     },
-//     {
-//         id: 1,
-//         columns: [
-//             {
-//                 id: 1,
-//                 value: '111'
-//             },
-//             {
-//                 id: 1,
-//                 value: '111'
-//             }
-//         ]
-//     }
-// ]
 
 // default 3列10行
 const defaultRows = () => {
@@ -115,7 +87,7 @@ export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
         tableList: [
             {
                 id: uuid(),
-                name: department(),
+                name: flightNumber(),
                 rows: defaultRows(),
                 columns: defaultColumns
             }

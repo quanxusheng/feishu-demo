@@ -3,9 +3,10 @@ import { useForm } from '@mantine/form'
 import { useNavigate } from 'react-router-dom'
 import { faker } from '@faker-js/faker'
 import axios from 'axios'
-
 import useUserWorker from '@/hooks/useUserWorker'
 import useSheetDispatch from '@/store/hooks/useSheetDispatch'
+console.log('=>faker', faker)
+console.log('=>faker', faker.helpers.multiple(faker.animal.cat, { count: 10 }))
 // import useUserSheets from '@/hooks/useSheets'
 
 export default function Login() {

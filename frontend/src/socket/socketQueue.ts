@@ -9,8 +9,8 @@ let lock = false
 let workInProgressRoomVersion: number | null = null
 
 export const checkRoomVersion = (_roomVersion) => {
-    console.log('=>_roomVersion', _roomVersion)
-    console.log('=>workInProgressRoomVersion', workInProgressRoomVersion)
+    // console.log('=>_roomVersion', _roomVersion)
+    // console.log('=>workInProgressRoomVersion', workInProgressRoomVersion)
     if (_roomVersion === workInProgressRoomVersion) {
         lock = false
         workInProgressRoomVersion = null
@@ -35,7 +35,7 @@ const getLatestRetenttionOpertaion = () => {
         return
     }
     const latestOperation = retentionOperations.shift()
-    console.log('=>latestOperation', latestOperation)
+    // console.log('=>latestOperation', latestOperation)
     return latestOperation
 }
 

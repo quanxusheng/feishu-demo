@@ -77,71 +77,116 @@ export default function TableView() {
                     // map(viewsArr, view => {
                     //     return <Box key={view.id}>{view.name}</Box>
                     // })
-                    <Box key={table.id}>{table.name}</Box>
+                    <Box className='mb-4' key={table.id}>{table.name}</Box>
                 }
             </Box>
 
             <Box className='relative'>
                 <Stage width={window.innerWidth} height={window.innerHeight}>
                     <Layer>
-                        {/* <Html>
-                        </Html> */}
                         {
-                            map(rows, (row, index) => {
-                                return map(columns, ({ id, type, width, height, title, config }, colIndex) => {
-                                    const rowId = row.id
-                                    const colId = id
-                                    const rowIndex = Number(index) + 1
-                                    const currntCol = row.columns.find(col => col.id === colId)
-                                    const colVal = index ? currntCol.value : title
-                                    // const { width } = columnsConfig[colId]
-                                    const x = (Number(colIndex) * width)
-                                    const y = (Number(height) * rowIndex)
-                                    return (
-                                        <Fragment key={colId}>
-                                            <CanvasText
-                                                width={width}
-                                                fontSize={15}
-                                                fontFamily='Calibri'
-                                                text={colVal}
-                                                padding={10}
-                                                wrap="none"
-                                                ellipsis
-                                                x={x + 10}
-                                                y={y}
-                                            />
-                                            <Rect
-                                                width={width}
-                                                height={height}
-                                                x={x}
-                                                y={y}
-                                                stroke='#ddd'
-                                                strokeWidth={1}
-                                                onClick={(e) => clickCell(e, {
-                                                    x,
-                                                    y,
-                                                    colId,
-                                                    type,
-                                                    width,
-                                                    rowId,
-                                                    value: colVal,
-                                                    config
-                                                })}
-                                                onDblClick={(e) => dblClickCell(e, {
-                                                    x,
-                                                    y,
-                                                    colId,
-                                                    type,
-                                                    width,
-                                                    rowId,
-                                                    value: colVal,
-                                                    dblClick: true,
-                                                    config
-                                                })}
-                                            />
-                                        </Fragment>
-                                    )
-                                })
+                            map(columns, (col, colIndex) => {
+                                const { id: colId, width, height, title, type, config } = col
+                                const firstColX = Number(colIndex) * width
+                                return (
+                                    <Fragment key={colId}>
+                                        <CanvasText
+                                            width={width}
+                                            fontSize={15}
+                                            fontFamily='Calibri'
+                                            text={title}
+                                            padding={10}
+                                            wrap="none"
+                                            ellipsis
+                                            x={firstColX + 10}
+                                            y={0}
+                                        />
+                                        <Rect
+                                            width={width}
+                                            height={height}
+                                            x={firstColX}
+                                            y={0}
+                                            stroke='#ddd'
+                                            strokeWidth={1}
+                                            onClick={(e) => clickCell(e, {
+                                                x: firstColX,
+                                                y: 0,
+                                                colId,
+                                                type,
+                                                width,
+                                                rowId: '',
+                                                value: title,
+                                                config
+                                            })}
+                                            onDblClick={(e) => dblClickCell(e, {
+                                                x: firstColX,
+                                                y: 0,
+                                                colId,
+                                                type,
+                                                width,
+                                                rowId: '',
+                                                value: title,
+                                                dblClick: true,
+                                                config
+                                            })}
+                                        />
+                                        {
+                                            map(rows, (row, rowIndex) => {
+                                                // const { id: colId, width, height, title, type, config } = col
+                                                const { id: rowId, columns: columnsArr } = row
+                                                const currentColumn = columnsArr.find(c => c.id === colId)
+                                                const { value: colVal } = currentColumn
+
+                                                const x = Number(colIndex) * width
+                                                const y = Number(rowIndex + 1) * height
+                                                return (
+                                                    <Fragment key={rowId}>
+                                                        <CanvasText
+                                                            width={width}
+                                                            fontSize={15}
+                                                            fontFamily='Calibri'
+                                                            text={colVal}
+                                                            padding={10}
+                                                            wrap="none"
+                                                            ellipsis
+                                                            x={x + 10}
+                                                            y={y}
+                                                        />
+                                                        <Rect
+                                                            width={width}
+                                                            height={height}
+                                                            x={x}
+                                                            y={y}
+                                                            stroke='#ddd'
+                                                            strokeWidth={1}
+                                                            onClick={(e) => clickCell(e, {
+                                                                x,
+                                                                y,
+                                                                colId,
+                                                                type,
+                                                                width,
+                                                                rowId,
+                                                                value: colVal,
+                                                                config
+                                                            })}
+                                                            onDblClick={(e) => dblClickCell(e, {
+                                                                x,
+                                                                y,
+                                                                colId,
+                                                                type,
+                                                                width,
+                                                                rowId,
+                                                                value: colVal,
+                                                                dblClick: true,
+                                                                config
+                                                            })}
+                                                        />
+                                                    </Fragment>
+                                                )
+                                            })
+                                        }
+                                    </Fragment>
+                                )
                             })
                         }
                     </Layer>
@@ -185,6 +230,6 @@ export default function TableView() {
                 </Box>
 
             </Box>
-        </Box>
+        </Box >
     )
 }

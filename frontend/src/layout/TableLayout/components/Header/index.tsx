@@ -46,7 +46,11 @@ export default function Header() {
 
                 <Menu>
                     <Menu.Target>
-                        <Avatar src={user.avatar} className='cursor-pointer' radius='xl' color="blue"></Avatar>
+                        <Box className='flex items-center justify-center flex-col cursor-pointer'>
+                            <Avatar src={user.avatar} className='cursor-pointer' radius='xl' color="blue"></Avatar>
+                            <Text>{user.username}</Text>
+                        </Box>
+
                     </Menu.Target>
 
                     <Menu.Dropdown>

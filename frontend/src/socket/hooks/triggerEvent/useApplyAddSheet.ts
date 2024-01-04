@@ -1,7 +1,7 @@
 // import {sheetTemplateCreator} from '@/store/utils'
 import {useCallback} from 'react'
 
-import { AddSheetParams } from '@/socket/types'
+import { AddTableParams } from '@/socket/types'
 
 import { applyOriginAddSheet, updataTable } from '@/store/slicers/sheetSlice'
 
@@ -15,7 +15,7 @@ export default function useApplyAddSheet(){
     const dispatch = useDispatch()
     const {sheetUrlParams} = useUrlParams()
 
-    const applyOriginAddSheetOperation = useCallback((params:AddSheetParams) => {
+    const applyOriginAddSheetOperation = useCallback((params:AddTableParams) => {
         dispatch(applyOriginAddSheet(params))
     }, [dispatch])
 

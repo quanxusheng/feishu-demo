@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { v4 as uuid} from 'uuid'
 
 import { Sheet } from '../types'
@@ -26,30 +26,25 @@ const sheetSlice = createSlice({
             // console.log('=>0000', payload)
             return payload
         },
-        createSheet: (state, action) => {
-            // const sheet = sheetTemplateCreator(action.payload.name || '数据表')
-            // console.log('=>createSheet', sheet)
-            // const { id, name, views, columns} = sheet
-            // state[sheet.id] = sheet
+        // createTable: (state, action) => {
+        //     console.log('=>action.payload', action)
+        //     // console.log('=>action.payload', action.payload)
 
-            // const viewId = Object.values(views)[0].id
-            // const columnId = Object.values(columns)[0].id
-            // console.log('=>action.payload', action.payload)
-
-            // pushToRetentionOperations({
-            //     roomVersion: action.payload.roomVersion + 1,
-            //     executor: () => OperationSheet({
-            //         ...action.payload,
-            //         id,
-            //         name,
-            //         viewId,
-            //         columnId,
-            //         roomVersion: action.payload.roomVersion + 1,
-            //     })
-            // })
-        },
+        //     pushToRetentionOperations({
+        //         roomVersion: action.payload.roomVersion + 1,
+        //         executor: () => OperationSheet({
+        //             ...action.payload,
+        //             // id,
+        //             // name,
+        //             // viewId,
+        //             // columnId,
+        //             roomVersion: action.payload.roomVersion + 1,
+        //         })
+        //     })
+        // },
         applyOriginAddSheet(state, action) {
-            state[action.payload.id] = action.payload
+            // state[action.payload.id] = action.payload
+            state.tableList.push(action.payload)
         },
         updataTable(state, action) {
             console.log('=>updataTable-action', action)
@@ -63,5 +58,5 @@ const sheetSlice = createSlice({
         }
     }
 })
-export const { getOriginSheetsData, updataTable, createSheet, applyOriginAddSheet } = sheetSlice.actions
+export const { getOriginSheetsData, updataTable, applyOriginAddSheet } = sheetSlice.actions
 export default sheetSlice.reducer

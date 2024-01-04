@@ -6,7 +6,7 @@ import queryString from 'query-string'
 import {get, omit} from 'lodash-es'
 
 import { RootState } from '../store'
-import { createSheet, updataTable, getOriginSheetsData } from '../store/slicers/sheetSlice'
+import {  updataTable, getOriginSheetsData } from '../store/slicers/sheetSlice'
 import { Sheet, Table } from '../store/types'
 import { OperationEmiter } from '@/socket/messageEmiter'
 import { updateRoomVersion } from '@/store/slicers/WorkInProgressRoomInfo'
@@ -15,13 +15,20 @@ import { OriginOperationParams} from '@/socket/types'
 
 import useUrlParams from './useUrlParams'
 
+import useUserWorker from './useUserWorker'
+
+import { OperationSheet } from '@/socket/messageEmiter'
+
+import {pushToRetentionOperations} from '@/socket/socketQueue'
+
 
 
 
 export default function useSheets() {
     const dispatch = useDispatch()
     const to = useNavigate()
-    const {sheetUrlParams} = useUrlParams()
+    const { sheetUrlParams } = useUrlParams()
+    const { user } = useUserWorker()
     // const urlParams = useParams()
     // const location = useLocation()
     // const locationSearch = queryString.parse(location.search)
@@ -40,41 +47,11 @@ export default function useSheets() {
         return sheetState
     }, [dispatch, sheetState])
 
-    // console.log('=9999>', sheet)
-
-    // useEffect(() => {
-    // console.log('=8888>', sheet)
-    // if (!sheet) {
-    //     sheet = JSON.parse(localStorage.getItem('sheetData'))
-    //     dispatch(getOriginSheetsData(sheet))
-    // }
-    // console.log('=9999>', sheet)
-    // }, [dispatch])
-    // let sheet = useSelector((state: RootState) => state.sheet)
-    // console.log('=8888>', sheet)
-    // if (!sheet) {
-    //     sheet = JSON.parse(localStorage.getItem('sheetData'))
-    //     dispatch(getOriginSheetsData(sheet))
-    // }
-    // console.log('=9999>', sheet)
-        // useSelector((state: RootState) => state.sheet) ||
-        // JSON.parse(localStorage.getItem('sheetData'))
-    // console.log('=>sheetsheet', sheet)
     const workInProgressRoomInfo = useSelector((state:RootState) => state.workInProgressRoomInfo)
+    
     const sheetArr = useMemo<Array<Table>>(() => {
         return sheet && sheet.tableList
     }, [sheet])
-    // console.log('=>urlParams', urlParams)
-    // console.log('=>location', location)
-    // console.log('=>location', locationSearch)
-
-    // const sheetUrlParams = useMemo<{sheetId: string, tableId: string}>(() => {
-    //     return {
-    //         sheetId: urlParams.sheetId,
-    //         tableId: locationSearch.tableId as string,
-    //     }
-    // }, [urlParams.sheetId, locationSearch.tableId])
-    // console.log('=>sheetUrlParams', sheetUrlParams)
 
     const getCurrentTable = useMemo(() => {
         // if (!sheetUrlParams.tableId) return
@@ -123,30 +100,29 @@ export default function useSheets() {
         //     }
         // }
         //  to(`/base/${sheetId}?tableId=${tempTableId}`)
-    },[sheetUrlParams, sheet, to])
+    },[])
 
     
-    const createSheetDispatcher = useCallback((name?: string) => {
-        dispatch(createSheet({
-            name,
-            sheetId: sheetUrlParams.sheetId,
-            roomVersion: workInProgressRoomInfo.roomVersion + 1
-        }))
+    const createTableDispatcher = useCallback((name?: string) => {
+        // dispatch(createTable({
+        //     name,
+        //     sheetId: sheetUrlParams.sheetId,
+        //     roomVersion: workInProgressRoomInfo.roomVersion + 1,
+        //     userId: user.userId
+        // }))
+            pushToRetentionOperations({
+                roomVersion: workInProgressRoomInfo.roomVersion + 1,
+                executor: () => OperationSheet({
+                    name,
+                    sheetId: sheetUrlParams.sheetId,
+                    roomVersion: workInProgressRoomInfo.roomVersion + 1,
+                    userId: user.userId
+                })
+            })
         dispatch(updateRoomVersion(workInProgressRoomInfo.roomVersion + 1))
-    },[dispatch, sheetUrlParams.sheetId, workInProgressRoomInfo.roomVersion])
+    },[dispatch, sheetUrlParams.sheetId, user.userId, workInProgressRoomInfo.roomVersion])
 
 
-    // const getOriginSheetsDataDispatcher = useCallback((data) => {
-    //     dispatch(getOriginSheetsData(data))
-    // }, [dispatch])
-
-    // const updataTableDispather = useCallback((payload) => {
-    //     // console.log('=>updataTableDispather-sheet', sheet)
-    //     // console.log('=>updataTableDispather-payload', payload)
-    //     const data = {...payload, ...sheetUrlParams }
-    //     console.log('=>updataTableDispather-uuuuu', data)
-    //     dispatch(updataTable(data))
-    // }, [dispatch, sheetUrlParams])
 
     const setCellValue = useCallback((params:OriginOperationParams) => {
         OperationEmiter({
@@ -163,7 +139,7 @@ export default function useSheets() {
         sheet,
         
         getTargetViewColumns,
-        createSheetDispatcher,
+        createTableDispatcher,
         // updataTableDispather,
         // navigatorToTargetView,
         setCellValue,

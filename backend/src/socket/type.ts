@@ -72,14 +72,16 @@ export interface VersionConfirmMessage {
     }
 }
 
-export interface AddSheetParams extends OriginOperationPayload {
-    id: string,
-    name: string
+export interface AddTableParams extends OriginOperationPayload {
+    sheetId: string,
+    name: string,
+    userId: string,
+    roomVersion: number
 }
 
 export interface OperationSheetMessage {
     type: ValidMessageType.OperationSheet,
-    params: AddSheetParams
+    params: AddTableParams
 }
 
 

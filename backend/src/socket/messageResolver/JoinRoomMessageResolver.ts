@@ -12,7 +12,7 @@ const getOnlineUserList = async (params:JoinRoomParams) => {
         avatar
     }
 
-    const result = await onlineUserSchema.findOneAndUpdate({id: userId}, queryParams, {upsert: true, new: true})
+    const result = await onlineUserSchema.findOneAndUpdate({ userId }, queryParams, {upsert: true, new: true}).select('-_id -__v')
     console.log('=>getOnlineUserList-result', result)
 
     // const result = await onlineUserSchema.find()

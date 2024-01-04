@@ -7,29 +7,34 @@ import useSheets from '../../../../hooks/useSheet'
 
 
 export default function Navbar() {
-    const [showCreateSheetInput, setShowCreateSheetInput] = useState<boolean>(false)
+    const [showCreateTableInput, setShowCreateTableInput] = useState<boolean>(false)
     const inputRef = useRef<HTMLInputElement>()
 
-    const { sheet, sheetArr, createSheetDispatcher, navigatorToTargetView } = useSheets()
+    const { sheet, sheetArr, createTableDispatcher, navigatorToTargetView } = useSheets()
     // console.log('=>sheet', sheetArr)
-    // createSheetDispatcher()
-    const handleCreateSheet = useCallback(() => {
-        setShowCreateSheetInput(true)
-        console.log('=>inputRef', inputRef)
+    // createTableDispatcher()
+    const handleCreateTable = useCallback(() => {
+        setShowCreateTableInput(true)
+        // console.log('=>inputRef', inputRef)
         requestIdleCallback((e) => {
             // console.log('=>eeee', e)
             // console.log('=>inputRef222', inputRef)
             inputRef.current.focus()
         })
-        // createSheetDispatcher()
+        // createTableDispatcher()
     }, [])
 
-    const requestCreateSheet = useCallback(() => {
-        setShowCreateSheetInput(false)
-        createSheetDispatcher(inputRef.current.value)
+    const handleEdit = useCallback((item) => {
+        console.log('=>item', item)
+        // navigatorToTargetView(item.id)
+    }, [])
+
+    const requestCreateTable = useCallback(() => {
+        setShowCreateTableInput(false)
+        createTableDispatcher(inputRef.current.value)
         console.log('=>sheet', sheet)
         console.log('=>sheetArr', sheetArr)
-    }, [createSheetDispatcher])
+    }, [createTableDispatcher, sheet, sheetArr])
 
     return (
         <NavbarContainer w={280}>
@@ -44,9 +49,9 @@ export default function Navbar() {
                                     key={item.id}
                                     className='flex cursor-pointer h-9 justify-between px-1 items-center rounded hover:bg-slate-200'
                                 >
-                                    <Text>{item.name}</Text>
+                                    <Text className='p-1'>{item.name}</Text>
                                     <ActionIcon>
-                                        <IconDots size={14} />
+                                        <IconDots size={14} onClick={() => handleEdit(item)} />
                                     </ActionIcon>
                                 </Box>
 
@@ -55,7 +60,8 @@ export default function Navbar() {
 
                     }
                     {
-                        showCreateSheetInput && <Input defaultValue={'数据表'} onBlur={requestCreateSheet} ref={inputRef} />
+                        // showCreateTableInput && <Input defaultValue={'数据表'} ref={inputRef} />
+                        showCreateTableInput && <Input defaultValue={'数据表'} onBlur={requestCreateTable} ref={inputRef} />
                     }
                 </Box>
 
@@ -63,7 +69,7 @@ export default function Navbar() {
                 <Box style={{ width: `calc(100% - 16px)` }} className="absolute bottom-0 px-3 pb-4">
                     <Divider />
                     <Text color="#646A73" className="text-sm h-8 pt-2 flex items-center mb-2">新建</Text>
-                    <Box onClick={handleCreateSheet} className="flex justify-between h-9 items-center cursor-pointer px-2 rounded hover:bg-slate-200">
+                    <Box onClick={handleCreateTable} className="flex justify-between h-9 items-center cursor-pointer px-2 rounded hover:bg-slate-200">
                         <Box style={{ color: "#a45eeb" }} className="flex items-center gap-1">
                             <Text className="text-sm text-black">新建数据表</Text>
                         </Box>
