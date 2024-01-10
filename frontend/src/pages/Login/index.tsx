@@ -5,8 +5,8 @@ import { faker } from '@faker-js/faker'
 import axios from 'axios'
 import useUserWorker from '@/hooks/useUserWorker'
 import useSheetDispatch from '@/store/hooks/useSheetDispatch'
-console.log('=>faker', faker)
-console.log('=>faker', faker.helpers.multiple(faker.animal.cat, { count: 10 }))
+// console.log('=>faker', faker)
+// console.log('=>faker', faker.helpers.multiple(faker.animal.cat, { count: 10 }))
 // import useUserSheets from '@/hooks/useSheets'
 
 export default function Login() {
@@ -20,10 +20,10 @@ export default function Login() {
 
     const mForm = useForm({
         initialValues: {
-            username: userName(),
-            email: email()
-            // username: 'alex',
-            // email: '466973739@qq.com'
+            // username: userName(),
+            // email: email()
+            username: 'alex',
+            email: '466973739@qq.com'
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email')
