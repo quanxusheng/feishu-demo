@@ -114,7 +114,7 @@ export default function useSheets() {
                 roomVersion: workInProgressRoomInfo.roomVersion + 1,
                 executor: () => OperationSheet({
                     name,
-                    sheetId: sheetUrlParams.sheetId,
+                    id: sheetUrlParams.sheetId,
                     roomVersion: workInProgressRoomInfo.roomVersion + 1,
                     userId: user.userId
                 })

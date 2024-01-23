@@ -69,7 +69,7 @@ export interface VersionConfirmMessage {
 }
 
 export interface AddTableParams {
-    sheetId: string,
+    id: string,
     name: string,
     userId: string,
     roomVersion: number

@@ -47,7 +47,7 @@ async function register(payload: UserLoginParam) {
 
     // 注册用户
     let user = await userdb.create(params)
-    console.log('=>user', user)
+    // console.log('=>user', user)
 
     // 创建一个默认sheet
     let sheetData = await findOrCreateDefaultSheet(params)

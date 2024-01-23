@@ -93,7 +93,7 @@ export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
             }
         ],
         creatorId: params.id,
-        creator: params.username,
+        // creator: params.username,
         createTime: Date.now()
     }
     console.log('=>findOrCreateDefaultSheet-initData', initData)

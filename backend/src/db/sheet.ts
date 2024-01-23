@@ -71,10 +71,10 @@ const sheetSchema = new Schema(
                 ],
             }
         ],
-        creator: {
-            type: String,
-            require: true
-        },
+        // creator: {
+        //     type: String,
+        //     require: true
+        // },
         creatorId: {
             type: String,
             require: true

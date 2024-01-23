@@ -73,7 +73,7 @@ export interface VersionConfirmMessage {
 }
 
 export interface AddTableParams extends OriginOperationPayload {
-    sheetId: string,
+    id: string,
     name: string,
     userId: string,
     roomVersion: number
