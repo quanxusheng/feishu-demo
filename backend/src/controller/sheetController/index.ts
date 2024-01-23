@@ -3,8 +3,6 @@ const { uuid } = fakerZH_CN.string
 const { cat } = fakerZH_CN.animal
 const { fullName } = fakerZH_CN.person
 const { name } = fakerZH_CN.company
-const { flightNumber } = fakerZH_CN.airline
-
 import { UserLoginParam } from '../userController/types'
 import sheet from '../../db/sheet'
 
@@ -87,7 +85,7 @@ export const findOrCreateDefaultSheet = async (params: UserLoginParam) => {
         tableList: [
             {
                 id: uuid(),
-                name: flightNumber(),
+                name: fullName(),
                 rows: defaultRows(),
                 columns: defaultColumns
             }
