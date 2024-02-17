@@ -22,7 +22,7 @@ export default function Header() {
             height={86}
         >
             <Box className=' h-full flex justify-between p-4'>
-                <Text style={{ fontSize: '50px' }} fz='xl' fw='bold' c='blue' >远智教育</Text>
+                {/* <Text style={{ fontSize: '50px' }} fz='xl' fw='bold' c='blue' >dog</Text> */}
 
                 <Card withBorder shadow='lg' padding='lg' className='w-6/12'>
                     <Card.Section>

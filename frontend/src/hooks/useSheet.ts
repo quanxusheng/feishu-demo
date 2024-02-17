@@ -125,13 +125,15 @@ export default function useSheets() {
 
 
     const setCellValue = useCallback((params:OriginOperationParams) => {
+        const {sheetId, tableId} = sheetUrlParams
         OperationEmiter({
             ...params,
             payload: {
-                sheetId: sheetUrlParams.sheetId
+                sheetId,
+                tableId,
             }
         })
-    }, [sheetUrlParams.sheetId])
+    }, [])
 
 
 

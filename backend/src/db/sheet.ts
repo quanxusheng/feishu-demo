@@ -32,7 +32,8 @@ const sheetSchema = new Schema(
                                     type: String
                                 },
                                 value: {
-                                    type: String
+                                    type: Schema.Types.Mixed
+                                    // type: String
                                 }
                             }
                         ]

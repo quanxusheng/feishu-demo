@@ -47,7 +47,9 @@ const sheetSlice = createSlice({
             state.tableList.push(action.payload)
         },
         updataTable(state, action) {
-            console.log('=>updataTable-action', action)
+            // console.log('=>updataTable-action', action)
+            // console.log('=>state', state)
+            // console.log('=>state', state.tableList)
             const {path, oi, tableId} = action.payload
             const table = state.tableList.find(f => f.id === tableId)
             const row = table && table.rows.find(r => r.id === path[0])
@@ -55,6 +57,7 @@ const sheetSlice = createSlice({
             if (col) {
                 col.value = oi
             }
+            localStorage.setItem('sheetData', JSON.stringify(state))
         }
     }
 })

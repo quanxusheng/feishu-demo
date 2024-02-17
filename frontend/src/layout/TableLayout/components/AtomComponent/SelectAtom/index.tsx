@@ -14,13 +14,16 @@ export default function SelectAtom(props: Props) {
 
     const { setCellValue } = useSheet()
     const handleBlur = useCallback((e) => {
+        props.destroyAtomComponent()
+        const newVal = e.target.value
+        if (!newVal || newVal === value) return
+
         setCellValue({
-            oi: e.target.value,
+            oi: newVal,
             od: value,
             path: [rowId, colId],
             operation: 'updataTable'
         })
-        props.destroyAtomComponent()
     }, [colId, props, rowId, setCellValue, value])
 
     return (
